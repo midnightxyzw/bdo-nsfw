@@ -1,0 +1,51 @@
+3D Object Converter for Windows 6.50
+
+Release date:		December 16, 2016
+Version:		32 bit, OpenGL
+Supported file formats:	740
+Author:			Zoltan Karpati
+
+E-Mail:			3doc@i3dconverter.com
+
+WEB:			http://3doc.i3dconverter.com
+
+SAC FTP:		ftp://ftp.elf.stuba.sk/pub/pc/graph/3dc32xyz.zip	(xyz=version)
+
+New file format modules:Black Desert				*.MAPDATA	Load
+			BrainNet Viewer				*.NV		Load / Save
+			BrainSuite				*.DFS		Load
+			Elite Force				*.WPK		Load
+			GEM 2 Engine (Men of War: Vietnam
+			Men of War: Assault Squad 2)		*.VOL		Load
+			Grin Engine (Bionic Commando,
+			Lead and Gold: Gangs of the Wild West,
+			Terminator Salvation,
+			Wanted: Weapons of Fate			*.DIESEL	Load
+			Hammer Engine (Crossout, Star Conflict)	*.MDL-MSH*/MDF  Load
+			Haydee					*.MESH/MTL	Load
+			Legend of Grimrock			*.MESH/MATERIALSLoad
+			Legend of Grimrock			*.MODEL/MATERIALSLoad
+			Rumble Fighter				*.NSX		Load
+			Strife					*.MODEL/MATERIALLoad
+			Surf Ice (uncompressed)			*.MZ3		Load / Save
+			The Thing				*.MSH		Load
+			Virtual Pool 4				*.DAE		Load
+			Vertex Buffer Object
+			(Windows 8.0 Resource loading sample)	*.VBO		Load / Save
+			Whale 2 Engine Binary
+			(Starpoint Gemini 2)			*.MDL		Load
+			X3 Reality Engine (X3 Terran Conflict)	*.BOB		Load
+			X3 Reality Engine (X3 Terran Conflict)
+			(converted with x2bc)			*.BOD		Load
+			XNA Posing Studio			*.XPS		Load
+
+New features:		Legend of Grimrock			*.D3D9_TEXTURE texture format
+			Configuration/General	Folders_Tree_On_StartUp				(default=0) 0: Off  1: On
+			Configuration/General	Object_Material_Bone_Selector_On_StartUp	(default=0) 0: Off  1: On
+			Configuration/General	Window_Left					(default=250)
+			Configuration/General	Window_Top					(default=160)
+			Configuration/General	Window_Width					(default=980)
+			Configuration/General	Window_Height					(default=600)
+			Configuration/Import	Wavefront_Object_Separator_Type			(default=0) 0: Group name  1: Object name
+			Configuration/Export	3D_Studio_Export_Long_Texture_FileNames		(default=False)
+

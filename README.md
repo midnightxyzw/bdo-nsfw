@@ -53,27 +53,21 @@ Majority of tools and resources are collected from Internet with credit and cour
 | 7_PVW | Valkyrie |
 | 8_PWW | Witch |
 | 11_PGW | Guardian |
+| 12_PKW | (Shared) |
 | 13_PNW | Kunoichi |
 | 14_PLW | Shai |
 | 15_PDW | Dark Knight |
 | 16_PCW | Mystic |
 | 17_PSW | Lahn |
 | 21_PPW | Nova |
-| ???    | Maehwa |
-| ??     | Corsair |
-| ??     | Drakania |
+| 22_PKWW | Maehwa |
+| 24_PFW | Corsair |
+| 25_PQW | Drakania |
+| 27_PKOW | Maegu |
 | 28_PMYF | Woosa |
-| ??     | Maegu |
 | 29_PNYW | Scholar |
 
-22_PKWW
-24_PFW
-25_PQW
-27_PKOW
-
-
 ## Male
-
 
 | Class | IDs |
 | - | - |
@@ -88,8 +82,7 @@ Majority of tools and resources are collected from Internet with credit and cour
 | 13_PNM | Ninja |
 | 16_PCM | Striker |
 | 18_PAM | Hashashin |
-| ??     | Maehwa |
-| ??     | Sage |
+| 23_PPM | Sage |
 
 # Outfit Types 
 

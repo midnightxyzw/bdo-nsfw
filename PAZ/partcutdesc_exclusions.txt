@@ -1,0 +1,86 @@
+### Lines beginning with "#" are comments.
+### Files can be listed with their full path ("character/model/" prefix optional) or with filters.
+
+### Paths and file names support wildcard filtering.
+### "*" is a wildcard for any character and any length.
+### "?" is a wildcard for any SINGLE character.
+### "#" is a wildcard for any SINGLE digit.
+
+### Paths must begin with "*" or "1_pc" (or any other subfolder in "character/model/").
+### Paths can be completely ommitted as well.
+
+### File names can omit ".pac", as it will be appended automatically.
+### If you'd like to disable all variations of a file ("_dm" for damaged, "_mul", "_na", "_01", "_in", etc) simply use a wildcard "*" at the end of the name instead.
+
+
+### Examples:
+
+## Disable individual files:
+
+#character/model/1_pc/2_phw/armor/15_underup/phw_00_underup_0004.pac
+#1_pc/2_phw/armor/15_underup/phw_00_underup_0030.pac
+#phw_00_underup_0037.pac
+#phw_02_underup_0006
+
+## Disable all files in a folder (must contain a trailing slash):
+
+#1_pc/3_pew/armor/15_underup/
+
+
+### Filtering examples:
+
+## Any digit:
+
+#1_pc/22_pkww/armor/15_underup/pkww_ew_underup_003#
+
+## The above is equivalent to listing the following files individually:
+#1_pc/22_pkww/armor/15_underup/pkww_ew_underup_0030.pac
+#1_pc/22_pkww/armor/15_underup/pkww_ew_underup_0031.pac
+#1_pc/22_pkww/armor/15_underup/pkww_ew_underup_0032.pac
+#1_pc/22_pkww/armor/15_underup/pkww_ew_underup_0033.pac
+
+
+#pbw_10_underup_####
+
+## The above is equivalent to listing the following files individually:
+#1_pc/5_pbw/armor/15_underup/pbw_10_underup_0006.pac
+#1_pc/5_pbw/armor/15_underup/pbw_10_underup_0021.pac
+
+
+## Any character wildcard:
+
+#PCM_01_GTL_0008_01*
+
+## The above is equivalent to listing the following files individually:
+#1_pc/16_pcm/weapon/65_gauntlet/pcm_01_gtl_0008_01_in.pac
+#1_pc/16_pcm/weapon/65_gauntlet/pcm_01_gtl_0008_01.pac
+
+
+#P*_10_UB_0002_E.pac
+
+## The above is equivalent to listing the following files individually:
+#1_pc/1_phm/armor/9_upperbody/phm_10_ub_0002_e.pac
+#1_pc/2_phw/armor/9_upperbody/phw_10_ub_0002_e.pac
+#1_pc/3_pew/armor/9_upperbody/pew_10_ub_0002_e.pac
+#1_pc/4_pgm/armor/9_upperbody/pgm_10_ub_0002_e.pac
+#1_pc/5_pbw/armor/9_upperbody/pbw_10_ub_0002_e.pac
+#1_pc/6_pkm/armor/9_upperbody/pkm_10_ub_0002_e.pac
+#1_pc/7_pvw/armor/9_upperbody/pvw_10_ub_0002_e.pac
+#1_pc/8_pwm/armor/9_upperbody/pwm_10_ub_0002_e.pac
+#1_pc/8_pww/armor/9_upperbody/pww_10_ub_0002_e.pac
+#1_pc/9_pem/armor/9_upperbody/pem_10_ub_0002_e.pac
+#1_pc/11_pgw/armor/9_upperbody/pgw_10_ub_0002_e.pac
+#1_pc/12_pkw/armor/9_upperbody/pkw_10_ub_0002_e.pac
+#1_pc/13_pnm/armor/9_upperbody/pnm_10_ub_0002_e.pac
+#1_pc/13_pnw/armor/9_upperbody/pnw_10_ub_0002_e.pac
+#1_pc/14_plw/armor/9_upperbody/plw_10_ub_0002_e.pac
+#1_pc/15_pdw/armor/9_upperbody/pdw_10_ub_0002_e.pac
+#1_pc/16_pcm/armor/9_upperbody/pcm_10_ub_0002_e.pac
+#1_pc/16_pcw/armor/9_upperbody/pcw_10_ub_0002_e.pac
+#1_pc/17_psw/armor/9_upperbody/psw_10_ub_0002_e.pac
+#1_pc/18_pam/armor/9_upperbody/pam_10_ub_0002_e.pac
+#1_pc/21_ppw/armor/9_upperbody/ppw_10_ub_0002_e.pac
+#1_pc/22_pkww/armor/9_upperbody/pkww_10_ub_0002_e.pac
+#1_pc/23_ppm/armor/9_upperbody/ppm_10_ub_0002_e.pac
+#1_pc/24_pfw/armor/9_upperbody/pfw_10_ub_0002_e.pac
+#1_pc/25_pqw/armor/9_upperbody/pqw_10_ub_0002_e.pac

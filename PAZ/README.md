@@ -16,6 +16,6 @@ This folder contains verified ready-to-use mods.
 ## Relase Notes (06/29/2024)
 
 - Verified against 06/19/2024 patch.
-- Contains female armor removal patch from resorepless 3.6f.
-- Contains Suzu body patch up to Scholar
+- Contains female armor removal patch from resorepless 3.6f (with support of classes up to release of Lahn)
+- Contains Suzu body patch, up to Scholar.
 

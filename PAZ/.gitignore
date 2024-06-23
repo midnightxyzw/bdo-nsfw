@@ -1,0 +1,4 @@
+*.exe
+*.meta
+patcher_resources/
+source_codes/

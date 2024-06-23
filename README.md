@@ -50,8 +50,7 @@ Majority of tools and resources are collected from Internet with credit and cour
 | 2_PHW | Sorceress |
 | 3_PEW | Ranger |
 | 5_PBW | Tamer |
-| 6_PKM | Musa |
-| 7_PVM | Valkyrie |
+| 7_PVW | Valkyrie |
 | 8_PWW | Witch |
 | 11_PGW | Guardian |
 | 13_PNW | Kunoichi |
@@ -60,12 +59,18 @@ Majority of tools and resources are collected from Internet with credit and cour
 | 16_PCW | Mystic |
 | 17_PSW | Lahn |
 | 21_PPW | Nova |
-| ??     | Maehwa |
+| ???    | Maehwa |
 | ??     | Corsair |
 | ??     | Drakania |
-| ??     | Woosa |
+| 28_PMYF | Woosa |
 | ??     | Maegu |
 | 29_PNYW | Scholar |
+
+22_PKWW
+24_PFW
+25_PQW
+27_PKOW
+
 
 ## Male
 

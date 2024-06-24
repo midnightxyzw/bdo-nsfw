@@ -12,7 +12,8 @@ To modify/cusotmize or add mods to this repository, please refer to [MODDER.md](
 2. Copy everything in the [PAZ](PAZ) folder into your BDO game installation's PAZ folder
 3. Run [Meta Injector.exe](PAZ/Meta%20Injector.exe) and follow the instructions to patch your game.
 
+Check out [PAZ/README.md](PAZ/README.md) for what are included in the mod.
 
 # TODO
 
-- Fix 
+- Fix resorpless partcut. Make it work with partgutgen tool.

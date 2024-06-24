@@ -35,8 +35,13 @@ This folder contains verified ready-to-use mods.
   - If you recognize these mods, please let me know.
 
 - Known Issues:
-  - Ranger body part missing in character creation. Looks fine in game play.
-  - Darknight body part missing in character creation. Looks fine in game play.
+  - Ranger body part missing when wearing some cash shop armor. Looks fine in underwear mode.
+  - Darknight body part missing when wearing some cash shop armor. Looks fine in underwear mode.
   - Sorceress body missed one pevis mesh. could be incorrect partcut.
-  - Mystic body texture is wrong.
+  - Nova:
+    - Skin has dark marks when wearing cash shop armor. Looks normal when wearing underwear only.
+  - Mystic:
+    - Skin has dark marks when wearing cash shop armor. Looks normal when wearing underwear only.
+  - Scholar:
+    - No nude armor yet. You have to be in town and enable underwear mode to see the nude mod.
   - Strange shadow on jiggled body parts. This only happens on classes using Suzu's body mesh. The resorpless nude mesh does not have this issue.

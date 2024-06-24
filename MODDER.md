@@ -56,7 +56,7 @@ The Discord BDO NSFW channel contains a wonderful article about the basics of mo
 | 7_PVW | Valkyrie |
 | 8_PWW | Witch |
 | 11_PGW | Guardian |
-| 12_PKW | (Shared) |
+| 12_PKW | Maehwa? |
 | 13_PNW | Kunoichi |
 | 14_PLW | Shai |
 | 15_PDW | Dark Knight |

@@ -44,4 +44,4 @@ This folder contains verified ready-to-use mods.
     - Skin has dark marks when wearing cash shop armor. Looks normal when wearing underwear only.
   - Scholar:
     - No nude armor yet. You have to be in town and enable underwear mode to see the nude mod.
-  - Strange shadow on jiggled body parts. This only happens on classes using Suzu's body mesh. The resorpless nude mesh does not have this issue.
+  - Strange shadow on jiggled body parts. This is known to all nude mesh mods you can find online.

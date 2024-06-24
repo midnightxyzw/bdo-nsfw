@@ -1,0 +1,4 @@
+b               "build $args"
+g               "git $args"
+j.root          "cd ${OLIVE_LINK_ROOT}/$args"
+j.src           "cd ${OLIVE_LINK_ROOT}/src$args"

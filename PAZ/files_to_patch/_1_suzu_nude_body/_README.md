@@ -8,12 +8,3 @@ This folder contains nude mods collected from the following sources:
 
 With this patch applied on top of the resorpless. Most of female classes are working, up to the Scholar class.
 
-# Known Issue
-
-- No nude armor for the following classes:
-  - Woosa
-  - Maegu
-  - Scholar
-- Maegu class still has underwear.
-- Strange shadow on jiggled body parts.
-

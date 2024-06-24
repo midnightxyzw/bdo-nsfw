@@ -2,20 +2,41 @@
 
 This folder contains verified ready-to-use mods.
 
-## Known Issues
-
-- Partcuts file are from resorpless mod. Probably outdated already.
-- Ranger body part missing in character creation. Looks fine in game play.
-- Darknight body part missing in character creation. Looks fine in game play.
-- Maegu class is not working yet. still has underwear.
-- Can only see nude mod in town with "show underwear" option for the following classes: 
-  - Woosa
-  - Scholar
-- Strange shadow on jiggled body parts. This seems only happening when using Suzu's body mesh. The original resorpless mod does not have this issue.
-
-## Relase Notes (06/29/2024)
+# Relase Notes (06/23/2024)
 
 - Verified against 06/19/2024 patch.
-- Contains female armor removal patch from resorepless 3.6f (with support of classes up to release of Lahn)
-- Contains Suzu body patch, up to Scholar.
 
+- Contains nude mod based on resorpless 3.6f for the following classes:
+  - Sorceress
+  - Ranger
+  - Tamer
+  - Valkyrie
+  - Witch
+  - Kunoichi
+  - Dark Knight
+  - Maehwa
+  - Striker
+  - Mystic
+  - Lahn
+
+- Contains Suzu's nude mod of the following classes:
+  - Guardian
+  - Nova
+  - Maehwa
+  - Corsair
+  - Drakania
+  - Scholar
+
+- Not support for the following classes yet:
+  - Woosa
+  - Maegu
+
+- Contains some NPC and fairy nude mod. Origin is unknown.
+  - If you recognize these mods, please let me know.
+
+- Known Issues:
+  - Ranger body part missing in character creation. Looks fine in game play.
+  - Darknight body part missing in character creation. Looks fine in game play.
+  - Sorceress body missed one pevis mesh. could be incorrect partcut.
+  - Mystic body texture is wrong.
+  - Strange shadow on jiggled body parts. This only happens on classes using Suzu's body mesh. The resorpless nude mesh does not have this issue.

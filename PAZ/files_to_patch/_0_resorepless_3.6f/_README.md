@@ -47,10 +47,3 @@ The resorpless 3.6f mod offiicallly support classes released up to Lahn. Any oth
 | 11_PGW | Guardian |
 | 17_PSW | Lahn |
 | 25_PQW | Drakania |
-
-# Known Issues
-
-- Ranger body part missing in character creation. Looks fine in game play.
-- Darknight body part missing in character creation. Looks fine in game play.
-- Sorceress body missed one pevis mesh. could be incorrect partcut.
-- Mystic body texture seems wrong.

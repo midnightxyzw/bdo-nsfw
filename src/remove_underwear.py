@@ -1,162 +1,116 @@
 #!/usr/bin/python3
 
-import sys, argparse, pathlib
-from termcolor import colored
+import pathlib, shutil, re
+import meta_file
 
-def info(message):
-    # print to stdout
-    print(f"{message}")
+def generate_patch(outRootDir, sourcePath, targetLocationWithinOutDir):
+    outFile = outRootDir / targetLocationWithinOutDir
+    outDir = outFile.parent
+    outDir.mkdir(parents=True, exist_ok=True)
+    shutil.copy(sourcePath, outFile)
 
-def warning(message):
-    # print to stderr
-    sys.stderr.write(colored(f"[WARNING] {message}\n", "yellow"))
+def patch_with_blank_texture(outRootDir, targetLocationWithinOutDir, originalFileSize):
+    # Choose a blank texture file based on size of the original texture
+    resorepless = pathlib.Path(__file__).parent.parent / "contrib/resorepless-v3.6f/patcher_resources/texture"
+    if originalFileSize < 1000000:
+        source =  resorepless / "blank_dxt1.dds"
+    else:
+        source = resorepless / "blank_dxt5.dds"
+    generate_patch(outRootDir, source, targetLocationWithinOutDir)
 
-def rip(message):
-    # print to stderr and exit
-    sys.stderr.write(colored(f"[FATAL] {message}\n", "red"))
-    sys.exit(1)
+def patch_with_dummy_ao_texture(outRootDir, targetLocationWithinOutDir, originalFileSize):
+    resorepless = pathlib.Path(__file__).parent.parent / "contrib/resorepless-v3.6f/patcher_resources/texture"
+    if "pdw_00_uw_0001_ao.dds" in str(targetLocationWithinOutDir):
+        source = resorepless / "pdw_00_uw_0001_ao.dds"
+    elif originalFileSize > 600000:
+        source = resorepless / "blank_ao_683.dds"
+    elif originalFileSize > 170000:
+        source = resorepless / "blank_ao_171.dds"
+    elif originalFileSize > 43000:
+        source = resorepless / "blank_ao_43.dds"
+    else:
+        # default to 171 version.
+        source = resorepless / "blank_ao_171.dds"
+    generate_patch(outRootDir, source, targetLocationWithinOutDir)
 
-class FileBlock:
-    def __init__(self, meta_file):
-        # Each file block is 28 bytes. The first 4 bytes is the hash value of the block.
-        self.hash = int.from_bytes(meta_file.read(4), byteorder="little")
-        # Next 4 bytes is folder number.
-        self.folderNum = int.from_bytes(meta_file.read(4), byteorder="little")
-        # Next 4 bytes is file number.
-        self.fileNum = int.from_bytes(meta_file.read(4), byteorder="little")
-        # Next 4 bytes is paz number.
-        self.pazNum = int.from_bytes(meta_file.read(4), byteorder="little")
-        # Next 4 bytes is file offset.
-        self.fileOffset = int.from_bytes(meta_file.read(4), byteorder="little")
-        # Next 4 bytes is zsize.
-        self.zsize = int.from_bytes(meta_file.read(4), byteorder="little")
-        # Next 4 bytes is size.
-        self.size = int.from_bytes(meta_file.read(4), byteorder="little")
-        
+def decodeBinaryString(binaryString):
+    try:
+        return binaryString.decode("ascii")
+    except UnicodeDecodeError:
+        try:
+            s = binaryString.decode("euc-kr")
+            meta_file.warning(f"Encountered a korean string: {s}.")
+            return s
+        except UnicodeDecodeError:
+            meta_file.rip(f"Could not decode {binaryString}.")
 
-class MetaFile:
-    def __init__(self, paz_folder):
-        meta_file =  pathlib.Path(paz_folder) / "pad00000.meta"
-        if not meta_file.exists():
-            rip(f"{meta_file} does not exist. Make sure you are pointing to BDO's PAZ folder.")
-        with open(meta_file, "rb") as f:
-            expectedFileBlockCount = self.read_file_header(f)
-            # Remember where we are in the file. When we read file block entries backwards, we can't go beyond this point.
-            start = f.tell()
+def remove_underwear(outDir: str | None, meta: meta_file.MetaFile):
+    # determine the output directory
+    if not outDir:
+        outDir = pathlib.Path.cwd()
+    else:
+        outDir = pathlib.Path(outDir)
 
-            # Search for an known block. This will give us a starting point to read file blocks.
-            middle = self.searchForAnKnownBlock(f)
+    # check if dummy pac file exists
+    dummy_pac = pathlib.Path(__file__).parent.parent / "contrib/resorepless-v3.6f/patcher_resources/models/t0072_pumpkin_ground_0001.pac"
+    if not dummy_pac.exists():
+        meta_file.rip("dummy.pac does not exist. Make sure it is in the same folder as this script.")
 
-            # read forwards
-            remaining = self.readFileBlocksForward(f, middle, expectedFileBlockCount)
+    # search through model files of all classes, select every .pac files under player folder with name "38_underwear"
+    # info ("Patching underwear models...")
+    # models = []
+    # for block in meta.fileBlocks:
+    #     # folder name needs to contain both "1_pc" and "38_underwear"
+    #     if b"1_pc" not in block.folderName: continue
+    #     if b"38_underwear" not in block.folderName: continue
+    #     # file name must end with ".pac"
+    #     if not block.fileName.endswith(b".pac"): continue
+    #     # found it. place it with an the dummy pac file
+    #     fullFilePath = pathlib.Path(block.folderName.decode("ascii")) / block.fileName.decode("ascii")
+    #     generate_patch(outDir, dummy_pac, fullFilePath)
+    #     meta_file.info(f"  {fullFilePath} patched!")
+    #     models.append(block)
 
-            # read backwards
-            remaining = self.readFileBlocksBackward(f, start, middle, remaining, expectedFileBlockCount)
+    pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
+    def is_underwear_texture(fileName):
+        # file name must contain either "_##_uw_" or "_99_ub_"
+        if not pattern.search(fileName): return False, False
+        # Check if it is a ao texture. If yes, no future check is needed. We need to patch it.
+        if "_ao.dds" in fileName: return True, True
+        # We don't patch underwear/lb textures with these names: "_n.dds", "_sp.dds", "_m.dds", "_st.dds", "_fur"
+        if "_n.dds" in fileName: return False, False
+        if "_sp.dds" in fileName: return False, False
+        if "_m.dds" in fileName: return False, False
+        if "_st.dds" in fileName: return False, False
+        if "_fur" in fileName: return False, False
+        # Yes, this is a underwear texture (but not AO) that we need to patch.
+        return True, False
 
-            # We have read all we can. Check if there's anything still missing.
-            if remaining > 0:
-                warning(f"Could not read all file blocks. {remaining} file blocks are missing.")
+    # search all underwear textures. replace it with a dummy texture
+    meta_file.info("Patching underwear textures...")
+    textures = []
+    for block in meta.fileBlocks:
+        # folder name must contain "character\texture"
+        if b"character/texture" not in block.folderName: continue
+        # file name must end with ".dds"
+        if not block.fileName.endswith(b".dds"): continue
 
-        # Done reading file blocks. Print out how many we have read.
-        info(f"Number of file blocks read: {len(self.fileBlocks)}")
+        # Convert to pathlib.Path. Note that we have to do this after the checks above.
+        # since some folder name contains non-ascii characters that we don't know how to decode.
+        folder = pathlib.Path(decodeBinaryString(block.folderName))
+        fileName = decodeBinaryString(block.fileName)
 
-    def read_file_header(self, f):
-        # skip the first 4 bytes of the file.
-        f.seek(4)
-        # read the next 4 bytes to get the number of paz entries
-        self.pazCount = int.from_bytes(f.read(4), byteorder="little")
-        # each paz entry is 12 bytes. let's skip them.
-        f.seek(12 * self.pazCount, 1)
-        # next 4 bytes is the number of file blocks.
-        expectedFileBlockCount = int.from_bytes(f.read(4), byteorder="little")
+        # We only care about underwear textures
+        needToPath, isAO = is_underwear_texture(fileName)
+        if not needToPath: continue
 
-        # print header information to console.
-        info(f"Number of paz entries: {self.pazCount}")
-        info(f"Number of file blocks expected: {expectedFileBlockCount}")
+        # found it. replace it with an blank or dummy texture
+        fullFilePath = folder / fileName
+        if isAO:
+            patch_with_dummy_ao_texture(outDir, fullFilePath, block.size)
+        else:
+            patch_with_blank_texture(outDir, fullFilePath, block.size)
 
         # Done
-        return expectedFileBlockCount
-
-    def searchForAnKnownBlock(self, f):
-        # The actual start offset of files block table is unknown. We need to search for it.
-        # The way we do it is by searching for an known hash value of 631490897 that we know must exists.
-        # It might be it the middle of the file block entries.
-        while True:
-            if int.from_bytes(f.read(4), byteorder="little") == 631490897:
-                break
-
-        # Seek back 4 bytes. Now we are at the bebinning of the block.
-        f.seek(-4, 1)
-
-        # Return this point to the caller.
-        return f.tell()
-    
-    def readFileBlocksForward(self, f, start, expectedFileBlockCount):
-        self.fileBlocks = []
-
-        # startin reading block by block, until the following ending conditions are met:
-        # 1. We have read all the file blocks, or
-        # 2. The block's fileNum is out of range of [0, expectedFileBlockCount)
-        while len(self.fileBlocks) < expectedFileBlockCount:
-            newBlock = FileBlock(f)
-
-            # We'll stop as soon as we encounter an invalid block,.
-            if newBlock.fileNum < 0 or newBlock.fileNum >= expectedFileBlockCount:
-                break
-
-            # this seems like a valie file block. Let's add it to the list.
-            self.fileBlocks.append(newBlock)
-
-        # Done.
-        return expectedFileBlockCount - len(self.fileBlocks)
-    
-    def readFileBlocksBackward(self, f, start, end, remaining, expectedFileBlockCount):
-        if remaining == 0:
-            # We have read all the file blocks. Nothing to do.
-            return 0
-
-        f.seek(end)
-
-        blocks = []
-
-        # The file block size is 28 bytes.
-        blockSize = 28
-
-        # Read in reverse order until we reach the start of the file entries:
-        # 1. We have read all the file blocks (self.originalFileBlockCount), or
-        # 2. The block's fileNum is out of range of [0, self.originalFileBlockCount)
-        # 3. We have reached the self.originalFileBlockStart
-        while remaining > 0:
-            # Let's check if we have reached the start of the file entries.
-            if (f.tell() - blockSize) < start:
-                # We have passed over the starting point. Let's break the loop.
-                break
-
-            # Seek back one block.
-            f.seek(-blockSize, 1)
-            # Read it.
-            newBlock = FileBlock(f)
-            if newBlock.fileNum < 0 or newBlock.fileNum >= expectedFileBlockCount:
-                # This is not a valid file block. We are done.
-                break
-            # This seems like a valid file block. Let's add it to the list
-            blocks.append(newBlock)
-
-            # seek back to the start of the block.
-            f.seek(-blockSize, 1)
-
-        # Attach the blocks to the beginning of the file blocks list.
-        self.fileBlocks = blocks + self.fileBlocks
-
-        # Done.
-        return expectedFileBlockCount - len(self.fileBlocks)
-
-if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-i", required=True, help="Path to your BDO's PAZ folder")
-    ap.add_argument("-o", help="Path to the output folder. Default is the current working directory.")
-    args = ap.parse_args()
-    meta = MetaFile(args.i)
-    # patch = remove_underwear(meta)
-    # write_patch(patch, args.o)
-
+        meta_file.info(f"  {fullFilePath} patched!.")
+        textures.append(block)

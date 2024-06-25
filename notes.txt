@@ -1,3 +1,8 @@
+TODO
+====
+1. Prepare a clean list of nude body mesh and textures.
+2. Write a program that scan's through meta file to remove all underwear.
+
 markFilesToPatch()
   - if "remove_all_helmets" enabled, then filter on "13_hel"
   - if filename contains "under18", skip it. (why???)

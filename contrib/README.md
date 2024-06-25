@@ -1,8 +1,8 @@
 # Overview
 
-This folder contains unmodified copy of commonly used tools and resources for BOD modding.
+This folder contains collection of commonly seen tools and assets for BOD modding.
 
-Credid and courtesy to original authors.
+All credid and courtesy goes to the original authors.
 
 # BDO Mod Tools from Undertow
 

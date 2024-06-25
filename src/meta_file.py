@@ -59,8 +59,8 @@ class IceDecipher:
         return bytes(c_byte_array)
 
 class MetaFile:
-    def __init__(self, paz_folder):
-        meta_file = pathlib.Path(paz_folder) / "pad00000.meta"
+    def __init__(self, paz_folder : pathlib.Path):
+        meta_file = paz_folder / "pad00000.meta"
         if not meta_file.exists():
             rip(f"{meta_file} does not exist. Make sure you are pointing to BDO's PAZ folder.")
         info(f"Reading {meta_file}")

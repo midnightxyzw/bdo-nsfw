@@ -57,6 +57,8 @@ def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
         # folder name needs to contain both "1_pc" and "38_underwear"
         if b"1_pc" not in block.folderName: continue
         if b"38_underwear" not in block.folderName: continue
+        # do not touch Shi class
+        if b"14_plw" in block.folderName: continue
         # file name must end with ".pac"
         if not block.fileName.endswith(b".pac"): continue
         # found it. place it with an the dummy pac file
@@ -72,6 +74,8 @@ def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
 def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile):
     pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
     def is_underwear_texture(fileName):
+        # do not touch SHI class
+        if "plw_" in fileName: return False, False
         # file name must contain either "_##_uw_" or "_99_ub_"
         if not pattern.search(fileName): return False, False
         # Check if it is a ao texture. If yes, no future check is needed. We need to patch it.

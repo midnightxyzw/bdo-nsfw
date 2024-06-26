@@ -43,9 +43,15 @@ The project is hold on GitHub: https://github.com/midnightxyzw/bdo-nsfw. Submit 
 
 - Verified against 06/19/2024 official patch of NA game server.
 
-- Underweare removed for Woosa and Maegu.
+- What's New:
+  - Underwear removed for Woosa and Maegu.
+  - Removed hard coded partcutdesc.xml from armor removal patch. Now requires to run PartCutGen.exe before patching.
 
-- Removed hard coded partcutdesc.xml from armor removal patch. Now requires to run PartCutGen.exe before patching.
+- Fixes:
+  - Fixed missing pelvis skin for Sorceress.
+
+- Known Issues:
+  - Ranger body part missing when wearing some cash shop armor. Looks fine in underwear mode.
 
 
 # v0.1.0 Release Notes (06/23/2024)

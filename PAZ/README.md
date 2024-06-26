@@ -51,8 +51,16 @@ The project is hold on GitHub: https://github.com/midnightxyzw/bdo-nsfw. Submit 
   - Fixed missing pelvis skin for Sorceress.
 
 - Known Issues:
-  - Ranger body part missing when wearing some cash shop armor. Looks fine in underwear mode.
-
+  - Ranger:
+    - Body part missing when wearing some cash shop armor. Looks fine in underwear mode.
+  - Dark Knight:
+    - Body part missing when wearing some cash shop armor. Looks fine in underwear mode.
+  - Nova:
+    - Skin has dark marks when wearing cash shop armor. Looks normal when wearing underwear only.
+  - Sorceress:
+    - Body missed one pelvis mesh when wearing some cash shop armor.
+  - Mystic:
+    - Skin has dark marks when wearing cash shop armor. Looks normal when wearing underwear only.
 
 # v0.1.0 Release Notes (06/23/2024)
 
@@ -89,7 +97,7 @@ The project is hold on GitHub: https://github.com/midnightxyzw/bdo-nsfw. Submit 
 - Known Issues:
   - Ranger body part missing when wearing some cash shop armor. Looks fine in underwear mode.
   - Darknight body part missing when wearing some cash shop armor. Looks fine in underwear mode.
-  - Sorceress body missed one pevis mesh. could be incorrect partcut.
+  - Sorceress body missed one pelvis mesh. could be incorrect partcut.
   - Nova:
     - Skin has dark marks when wearing cash shop armor. Looks normal when wearing underwear only.
   - Mystic:

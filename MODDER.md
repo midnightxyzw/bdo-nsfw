@@ -2,12 +2,6 @@
 
 I'm sorry that this section is still WIP and not well organized.
 
-# The Basic Folder Structure
-
-The PAZ fodler contains verified working mods.
-
-The WIP folder contains unverified work-in-progress mods.
-
 ## Mod 101
 
 The Discord BDO NSFW channel contains a wonderful article about the basics of modding BDO: [Mod 101](https://discord.com/channels/524568440254627850/1133492069596418179)

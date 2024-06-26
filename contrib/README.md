@@ -12,6 +12,7 @@ This repository has a cooy of the following tools:
 
 - BDO Toolkit 1.3.0
 - Meta Injector 1.4.1
+- PAZ Browser 1.4b
 - PartCutGen 1.1.0 with eyeline fix (needed after 6/29/2024 patch.)
 
 # Resorpless Nude Mod 3.6f

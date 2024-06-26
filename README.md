@@ -16,10 +16,9 @@ Check out [PAZ/README.md](PAZ/README.md) for what are included in the mod.
 
 # TODO
 
-- Remove "hide_armor" mod from default installation of the collection. Make it optional.
-- Instead, add nude mod for the following commonly used non-cash-shop armor suites:
-  - Tuvala
-  - Boss Armors
-  - Fallen God
-  - Slumbering Origin
+- Redo "remove_all_armor" patch using the python script.
+- Add nude mode for the following gears:
+  - Tuvala Gears
+  - Boss Gears
+  - Slumbering Origin Gears
   

@@ -1,0 +1,66 @@
+# Black Desert (script 0.2.4) modified by Garkin
+#
+#  My modifications are based on BlackFire's modified script:
+#  https://www.undertow.club/posts/129096
+#
+#  Original script:
+#  http://aluigi.altervista.org/bms/blackdesert.bms
+#
+# If you are using Notepad++, change the Language to "Visual Basic" to get a nice color code
+
+quickbmsver "0.7.4"
+comtype blackdesert
+set BDO_ICE_KEY binary "\x51\xF3\x0F\x11\x04\x24\x6A\x00"
+encryption ice BDO_ICE_KEY
+
+get EXT extension
+
+if EXT == "PAZ"  #If the file extension is .PAZ
+   get DUMMY long
+   get TOTAL_FILES long
+   get FILE_PATHS_TOTAL_LENGTH long
+
+   savepos FILE_BLOCKS_START
+   xmath FILE_BLOCKS_END "FILE_BLOCKS_START + (TOTAL_FILES * 4 * 6)"
+   log MEMORY_FILE FILE_BLOCKS_END FILE_PATHS_TOTAL_LENGTH
+
+   math i = 0
+   for TMP = 0 < FILE_PATHS_TOTAL_LENGTH
+       get FILE_PATH string MEMORY_FILE
+
+       if FILE_PATH == ""
+           break
+       endif
+
+       putarray 0 i FILE_PATH
+       savepos TMP MEMORY_FILE
+   next i
+
+   for i = 0 < TOTAL_FILES
+       get HASH long
+       get FOLDER_NUM long
+       get FILE_NUM long
+       get OFFSET long
+       get ZSIZE long
+       get SIZE long
+
+       getarray FILE_NAME 0 FILE_NUM
+
+       if SIZE > ZSIZE
+           clog FILE_NAME OFFSET ZSIZE SIZE
+       elseif SIZE == 0
+           log FILE_NAME 0 0
+       else
+           log MEMORY_FILE2 OFFSET ZSIZE
+           get FLAGS byte MEMORY_FILE2
+           encryption "" ""
+           if FLAGS == 0x6E
+               clog FILE_NAME 0 ZSIZE SIZE MEMORY_FILE2
+           else
+               log FILE_NAME 0 SIZE MEMORY_FILE2
+           endif
+           encryption ice BDO_ICE_KEY
+       endif
+   next i
+
+endif

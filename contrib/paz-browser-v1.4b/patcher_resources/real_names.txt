@@ -1,0 +1,267 @@
+###### Cash Shop Outfit ######
+*_00_*_0003->Tyrie
+*_vw_*_0003->Tyrie
+*_00_*_0005->Karcenov
+*_B*_*_0015->Jegrina
+*_00_*_0015->Jegrina
+*_00_*_0004->Clead
+*_00_*_0007->Conqueror's Package
+*_00_*_0017->Puff Mini
+*_bw_*_0017->Puff Mini
+*_00_*_0034->Kibelius
+*_00_*_0033->Karlstein
+*_ew_*_0033->Karlstein
+*_00_lb_0034->Karlstein
+*_00_*_0030->Cavaro
+*_hw_*_0031->Lahr Arcien (W)
+*_ew_*_0031->Lahr Arcien (W)
+*_00_*_0031->Lahr Arcien
+*_00_*_0032->Atanis
+*_ew_*_0032->Atanis
+*_00_*_0035->Epheria Marine
+*_00_*_0037->Canape
+*_00_*_0038->Trumpet Creeper
+*_00_*_0040->Charles Rene
+*_00_*_0042->Kylia
+*_00_*_0052->Aker
+*_00_*_0058->Enslar
+*_00_*_0072->Karin
+*_00_*_0081->Neve
+*_00_*_0083->Jousting
+*_00_*_0086->Blushing Maiden
+*_00_*_0091->Night Cat
+*_00_*_0094->Ladybell
+
+*_10_*_0001->Red Nose
+*_10_*_0002->Hebetate Tree Spirit's
+*_10_*_0003->Fish
+*_10_*_0004->Treant Camouflage
+*_10_*_0006->Venecil Dress (Maid)
+*_10_*_0007->Mini Yukata
+*_10_*_0008->Desert Camouflage
+*_10_*_0009->Bloody Halloween
+*_10_*_0010->Shiranui
+*_10_*_0011->Christmas
+*_10_*_0012->Lunar New Year
+*_10_*_0013->Shark
+*_10_*_0020->Ram Horn Witch
+*_10_*_0022->Heidel Masquerade
+*_10_*_0023->Anemos
+
+*_ew_*_0009->Kyrill
+*_00_*_0009->Kyrill
+*_ew_*_0030->Cavaro
+pew_00_*_0030->Cavaro
+_kw_*_0001->Red Moon
+pkww_00_*_0001->Red Moon
+*_bw_*_0018->Vixen
+
+*_50_*_0004->Thermian Casual
+*_50_*_0007->Ahon Kirus
+
+*_00_contribute_0108->Jerette's
+
+###### Class-Exclusive Outfit ######
+# Dark Knight
+pdw_00_*_0001->Rosa Cassius
+pdw_00_*_0002->Sin Terrna
+
+# Sorceress
+phw_00_*_0002->Lumik
+phw_00_*_0009->Kyrill (Black)
+phw_00_*_0031->Lahr Arcien (R)
+*_00_*_0043->Cartian
+*_hw_*_0043->Cartian
+*_00_*_0049->Milren Fedora
+*_00_*_0063->Papillo
+*_00_*_0085->Lucien Blanc
+*_00_*_0100->Hillat
+PHW_02_*_0005->Ecket
+PHW_02_*_0006->Bern
+
+# Ranger
+*_00_*_0010->Ignis
+*_00_*_0045->Sylvia
+*_00_*_0053->Gotha Rensa
+*_00_*_0090->Stella
+pew_02_*_0006->Bern
+
+
+# Tamer
+*_00_*_0018->Vixen
+*_00_*_0046->Daru
+*_00_*_0054->White Dragon
+*_00_*_0091->Night Cat
+pbw_03_*_0001->Binari
+
+
+# Valkyrie
+pvw_00_*_0002->Venslar
+*_00_*_0076->Fallen Garzar
+*_00_*_0096->Dante
+
+# Witch 
+pww_00_*_0001->Dreaming Stars
+*_00_*_0056->Deneve
+*_00_*_0064->Labreve
+*_00_*_0067->Weenie Looney
+*_00_*_0078->Willow Branches
+*_00_*_0088->Rakshande
+
+# Kunoichi
+pnw_00_*_0001->Sicarios
+*_00_*_0071->Ayo
+*_00_*_0048->Cokro
+*_00_*_0098->Metaphor
+*_00_*_0062->Golden Scale
+
+# Maehwa
+*_00_*_0061->Order of the Apricot
+*_00_*_0099->Hongdouhua
+
+# Warrior
+*_00_*_0041->Goyen
+*_00_*_0060->Gavi Regan
+*_00_*_0073->Brut Lancelot
+*_00_*_0092->Void Knight
+*_00_*_0050->Milren Fedora
+phm_02_*_0005->Evergart
+phm_02_*_0006->Bern
+
+# Musa
+*_km_*_0013->Cataphract
+*_00_*_0013->Cataphract
+*_km_*_0014->Winderness
+*_00_*_0014->Winderness
+*_km_*_0016->Red Robe
+pkm_00_*_0016->Red Robe
+
+#Berserker
+*_00_*_0044->Tantu
+*_00_*_0075->BD9
+*_00_*_0097->Iron Fighter
+pgm_00_*_0001->Bethel
+phm_02_*_0005->Ecket
+
+# Striker
+pcm_00_ub_0001->WeDan
+
+###### Non - Cash shop Items ######
+# Starter/Rebar
+PH*_02_*_0001->Starter/Rebar
+PE*_02_*_0001->Starter/Rebar
+PV*_02_*_0007->Starter/Rebar
+PB*_02_*_0001->Starter/Rebar
+PW*_03_*_0003->Starter/Rebar
+PW*_03_*_0003->Starter/Rebar
+PG*_02_*_0001->Starter/Rebar
+PK*_02_*_0001->Starter/Rebar
+PN*_02_*_0001->Starter/Rebar
+PD*_02_*_0001->Starter
+PC*_02_*_0001->Starter
+
+# Brior/Reblath        
+PH*_02_*_0002->Brior/Reblath
+PE*_02_*_0002->Brior/Reblath
+PV*_02_*_0001->Brior/Reblath
+PB*_02_*_0002->Brior/Reblath
+PW*_03_*_0001->Brior/Reblath
+PG*_02_*_0002->Brior/Reblath
+PK*_02_*_0002->Brior/Reblath
+PD*_02_*_0003->Brior/Reblath
+
+
+
+# Agerian/Basteer/Binder         
+PH*_02_*_0003->Agerian/Basteer/Binder
+PE*_02_*_0003->Agerian/Basteer/Binder
+PV*_02_*_0002->Agerian/Basteer/Binder
+PB*_02_*_0003->Agerian/Basteer/Binder
+PW*_03_*_0002->Agerian/Basteer/Binder
+PW*_03_*_0002->Agerian/Basteer/Binder
+PG*_02_*_0003->Agerian/Basteer/Binder
+PK*_02_*_0003->Agerian/Basteer/Binder
+PN*_02_*_0003->Agerian/Basteer
+PN*_02_*_0002->Binder
+PD*_02_*_0002->Agerian/Basteer/Binder
+
+# Zereth
+PHW_01_*_0001->Zereth
+PE*_01_*_0001->Zereth
+PV*_02_*_0005->Zereth
+PB*_02_*_0005->Zereth
+PW*_02_*_0001->Zereth
+PW*_02_*_0001->Zereth
+PHM_01_*_0002->Zereth
+PG*_01_*_0002->Zereth
+PK*_00_*_0012->Zereth
+PN*_03_*_0001->Zereth
+PD*_02_*_0005->Zereth
+
+
+# Taritas/Steel Taritas/Talis
+PH*_02_*_0004->Taritas/Steel Taritas/Talis
+PE*_02_*_0004->Taritas/Steel Taritas/Talis
+PV*_02_*_0006->Taritas/Steel Taritas/Talis
+PB*_02_*_0004->Taritas/Steel Taritas/Talis
+PW*_03_*_0004->Taritas/Steel Taritas/Talis
+PW*_03_*_0004->Taritas/Steel Taritas/Talis
+PG*_02_*_0004->Taritas/Steel Taritas/Talis
+PK*_02_*_0004->Taritas/Steel Taritas/Talis
+PN*_02_*_0004->Taritas/Steel Taritas/Talis
+PD*_02_*_0004->Taritas/Steel Taritas
+PD*_02_*_0005->Talis
+
+# Grunil
+PHW_03_*_0002->Grunil
+PE*_02_*_0005->Grunil
+PV*_03_*_0001->Grunil
+PB*_02_*_0006->Grunil
+PW*_02_*_0002->Grunil
+PHM_01_*_0001->Grunil
+PG*_03_*_0003->Grunil
+PK*_03_*_0003->Grunil
+PN*_03_*_0002->Grunil
+PD*_03_*_0001->Grunil
+
+# Dobart
+PH*_02_*_0003->Dobart
+PE*_02_*_0003->Dobart
+PV*_00_*_0001->Dobart
+PB*_02_*_0004->Dobart
+PW*_03_*_0002->Dobart
+PG*_02_*_0003->Dobart
+PK*_02_*_0003->Dobart
+PN*_02_*_0003->Dobart
+PD*_02_*_0002->Dobart
+
+# Hercules' Might/Luck of Fortuna/Strength of Heve
+PHW_01_*_0001->Hercules' Might/Luck of Fortuna/Strength of Heve
+PE*_01_*_0001->Hercules' Might/Luck of Fortuna/Strength of Heve
+PV*_00_*_0000->Hercules' Might/Luck of Fortuna/Strength of Heve
+PB*_03_*_0002->Hercules' Might/Luck of Fortuna/Strength of Heve
+PW*_02_*_0001->Hercules' Might/Luck of Fortuna/Strength of Heve
+PHM_01_*_0002->Hercules' Might/Luck of Fortuna/Strength of Heve
+PG*_01_*_0002->Hercules' Might/Luck of Fortuna/Strength of Heve
+PK*_00_*_0012->Hercules' Might/Luck of Fortuna/Strength of Heve
+PN*_03_*_0003->Hercules' Might/Luck of Fortuna/Strength of Heve
+PD*_02_*_0005->Hercules' Might/Luck of Fortuna/Strength of Heve
+
+# Underwear
+*_uw_0001->Default
+*_uw_*032->Queen of Hearts
+*_uw_1040->Sileshi
+*_uw_*034->Le Vladian
+*_uw_*008->Vivid Blooming
+*_uw_*030->Cavaro
+*_uw_*010->Dream Laced
+*_uw_*035->Epheria Marine
+*_uw_*004->Black Garter Belt
+*_uw_*006->Jasmin Garter Belt
+*_uw_*014->White Zebra
+*_uw_*003->Black Zebra
+*_uw_*005->Silk Corset
+*_uw_*015->Rage
+*_uw_*002->Leopard
+*_uw_*007->Checked Beige
+*_uw_*031->Lahr Arcien

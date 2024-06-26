@@ -1,9 +1,15 @@
-TODO
-====
-1. Prepare a clean list of nude body mesh and textures.
+Individual Armor
+================
+- Tuvala: *_02_*_0009_*
+- Fallen God: *_02_*_0012_*
+- Labreska Helmet:
+- Dahn's Glove:
+- Ator's Shoes:
+
 2. Write a program that scan's through meta file to remove all underwear.
 
-markFilesToPatch()
+markFilesToPatch
+================
   - if "remove_all_helmets" enabled, then filter on "13_hel"
   - if filename contains "under18", skip it. (why???)
   - if filename is "common_decals_road_04_dec.dds", it was already patched, include it.

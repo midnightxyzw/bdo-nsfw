@@ -61,7 +61,7 @@ def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
         if b"14_plw" in block.folderName: continue
         # file name must end with ".pac"
         if not block.fileName.endswith(b".pac"): continue
-        # found it. place it with an the dummy pac file
+        # found it. patch it with an the dummy pac file
         fullFilePath = pathlib.Path(decodeBinaryString(block.folderName)) / decodeBinaryString(block.fileName)
         generate_patch(outDir, dummy_pac, fullFilePath)
         meta_file.info(f"  {fullFilePath} patched!")
@@ -80,7 +80,8 @@ def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile):
         if not pattern.search(fileName): return False, False
         # Check if it is a ao texture. If yes, no future check is needed. We need to patch it.
         if "_ao.dds" in fileName: return True, True
-        # We don't patch underwear/lb textures with these names: "_n.dds", "_sp.dds", "_m.dds", "_st.dds", "_fur"
+        # We don't patch underwear/lb textures with these names: "_n.dds", "_sp.dds", "_m.dds", "_st.dds", "_fur"\
+        # Note: this logic is copied from resorepless source code. Might need revisit.
         if "_n.dds" in fileName: return False, False
         if "_sp.dds" in fileName: return False, False
         if "_m.dds" in fileName: return False, False

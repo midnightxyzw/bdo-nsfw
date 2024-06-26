@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, pathlib, argparse, meta_file, remove_underwear
+import sys, pathlib, argparse, meta_file, remove_underwear, remove_all_armors
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
@@ -18,5 +18,6 @@ if __name__ == "__main__":
     meta = meta_file.MetaFile(pathlib.Path(args.i))
 
     # Generate no_underwear path
-    remove_underwear.remove_underwear(outDir / "_no_underwear", meta)
+    # remove_underwear.remove_underwear(outDir / "_no_underwear", meta)
+    remove_all_armors.remove_all_armors(outDir / "_all_armors_removed", meta)
 

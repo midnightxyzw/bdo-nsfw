@@ -3,11 +3,12 @@
 import pathlib, shutil, re
 import meta_file
 
-def generate_patch(outRootDir, sourcePath, targetLocationWithinOutDir):
+def generate_patch(outRootDir : pathlib.Path, sourcePath : str, targetLocationWithinOutDir : str | pathlib.Path):
     outFile = outRootDir / targetLocationWithinOutDir
     outDir = outFile.parent
     outDir.mkdir(parents=True, exist_ok=True)
     shutil.copy(sourcePath, outFile)
+    meta_file.info(f"  {targetLocationWithinOutDir} patched!.")
 
 def patch_with_blank_texture(outRootDir, targetLocationWithinOutDir, originalFileSize):
     # Choose a blank texture file based on size of the original texture
@@ -116,7 +117,6 @@ def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile):
             patch_with_blank_texture(outDir, fullFilePath, block.size)
 
         # Done
-        meta_file.info(f"  {fullFilePath} patched!.")
         textures.append(block)
 
 def remove_underwear(outDir: pathlib.Path, meta: meta_file.MetaFile):

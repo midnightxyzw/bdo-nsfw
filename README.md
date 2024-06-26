@@ -16,4 +16,10 @@ Check out [PAZ/README.md](PAZ/README.md) for what are included in the mod.
 
 # TODO
 
-- Fix resorpless partcut. Make it work with partgutgen tool.
+- Remove "hide_armor" mod from default installation of the collection. Make it optional.
+- Instead, add nude mod for the following commonly used non-cash-shop armor suites:
+  - Tuvala
+  - Boss Armors
+  - Fallen God
+  - Slumbering Origin
+  

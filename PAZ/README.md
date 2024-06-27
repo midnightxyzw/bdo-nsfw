@@ -32,25 +32,29 @@ Just submit your issues on Github. I don't know how much time I'll have in the f
 
 Feel free to fork and modify it however you like.
 
-# v0.1.1 Release Notes (06/25/2024)
+# v0.2.0 Release Notes (06/26/2024)
 
-- Verified against 06/19/2024 official patch of NA game server.
+- Verified against 06/26/2024 official patch on NA server.
 
 - What's New:
-  - Underwear removed for Woosa and Maegu.
-  - Removed hard coded partcutdesc.xml from armor removal patch. Now requires to run PartCutGen.exe before patching.
+  - Removed resorpless 3.6f nude mod. Replaced it with brand new script generated armor removal mod that supports all current classes and is compatible with PartCutGen.exe
+  - Removed hard coded partcutdesc.xml. Now it is requires to run PartCutGen.exe before patching.
+  - Woosa
+    - Underwear mesh/texture removed. Will show nude in underwear mode.
+  - Maegu
+    - Underwear mesh/texture removed. Will show nude in underwear mode.
+  - Ranger:
+    - Fixed missing body part in some cash shop outfits.
+  - Sorceress:
+    - Fixed missing pelvis mesh.
+  - Nova:
+    - Fixed shadows on body
+  - Mystic:
+    - Fixed shadows on body
 
 - Known Issues:
-  - Ranger:
-    - Body part missing when wearing some cash shop armor. Looks fine in underwear mode.
   - Dark Knight:
-    - Body part missing when wearing some cash shop armor. Looks fine in underwear mode.
-  - Nova:
-    - Skin has dark marks when wearing cash shop armor. Looks normal when wearing underwear only.
-  - Sorceress:
-    - Body missed one pelvis mesh when wearing some cash shop armor.
-  - Mystic:
-    - Skin has dark marks when wearing cash shop armor. Looks normal when wearing underwear only.
+    - Body part missing when wearing Darkborne Rose custom.
 
 # v0.1.0 Release Notes (06/23/2024)
 

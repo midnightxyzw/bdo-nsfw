@@ -41,9 +41,9 @@ if __name__ == "__main__":
     # Generate no_underwear path
     run_times = ""
     if run_remove_underwear:
-        t = timeit.timeit(lambda: remove_underwear.remove_underwear(outDir / "_remove_underwear", meta), number=1)
+        t = timeit.timeit(lambda: remove_underwear.remove_underwear(outDir / "_00_remove_underwear", meta), number=1)
         run_times += f"  remove_underwear: {t:.2f}s\n"
     if run_remove_all_armors:
-        t = timeit.timeit(lambda: remove_all_armors.remove_all_armors(outDir / "_remove_all_armors", meta), number=1)
+        t = timeit.timeit(lambda: remove_all_armors.remove_all_armors(outDir / "_00_remove_all_armors", meta), number=1)
         run_times += f"  remove_all_armors: {t:.2f}s\n"
     bdo_utils.logi(f"Done. Total run times:\n{run_times}")

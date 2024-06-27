@@ -22,9 +22,10 @@ Note that this one could easily conflict with other individual armor mods. If yo
 
 1. Make sure your game is not patched in any way. Applying this mod on an already patched game is not tested.
 2. Copy everything in this folder and sub folders to your game's PAZ folder.
-3. Run [PartCutGen.exe](PartCutGen.exe) and follow screen instructions to refresh the part cut exclusion list.
-4. Run [Meta Injector.exe](<Meta Injector.exe>) and follow screen instructions to patch your game.
-5. Have Fun!
+3. From the game's PAZ folder, do the following to patch the game:
+   1. Run [PartCutGen.exe](PartCutGen.exe) and follow screen instructions to refresh the part cut exclusion list.
+   2. Run [Meta Injector.exe](<Meta Injector.exe>) and follow screen instructions to patch your game.
+4. Have Fun!
 
 # How to submit issue or contribute
 

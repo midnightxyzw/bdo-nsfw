@@ -20,4 +20,3 @@ if __name__ == "__main__":
     # Generate no_underwear path
     # remove_underwear.remove_underwear(outDir / "_no_underwear", meta)
     remove_all_armors.remove_all_armors(outDir / "_all_armors_removed", meta)
-

@@ -3,18 +3,22 @@
 import sys, pathlib, ctypes, pathlib
 from termcolor import colored
 
-def info(message, end = "\n", flush = True):
+
+def info(message, end="\n", flush=True):
     # print to stdout
-    print(message, end = end, flush = flush)
+    print(message, end=end, flush=flush)
+
 
 def warning(message):
     # print to stderr
     sys.stderr.write(colored(f"[WARNING] {message}\n", "yellow"))
 
+
 def rip(message):
     # print to stderr and exit
     sys.stderr.write(colored(f"[FATAL] {message}\n", "red"))
     sys.exit(1)
+
 
 class FileBlock:
     def __init__(self, meta_file):
@@ -33,6 +37,7 @@ class FileBlock:
         # Next 4 bytes is size.
         self.size = int.from_bytes(meta_file.read(4), byteorder="little")
 
+
 class IceDecipher:
     def __init__(self):
         # Get directory of the script
@@ -44,7 +49,7 @@ class IceDecipher:
         elif sys.platform == "linux":
             ext = ".so"
         else:
-            ext = ".dylib" # macOS
+            ext = ".dylib"  # macOS
 
         # Load ice shared library
         self.lib = ctypes.CDLL(str(script_dir / "ice" / f"ice_decipher{ext}"))
@@ -58,13 +63,15 @@ class IceDecipher:
         self.lib.decrypt_inplace(c_byte_array, len(c_byte_array))
         return bytes(c_byte_array)
 
+
 class MetaFile:
-    def __init__(self, paz_folder : pathlib.Path):
+    def __init__(self, paz_folder: pathlib.Path):
         meta_file = paz_folder / "pad00000.meta"
         if not meta_file.exists():
             rip(f"{meta_file} does not exist. Make sure you are pointing to BDO's PAZ folder.")
         info(f"Reading {meta_file}")
-        with open(meta_file, "rb") as f: self.read_meta_file(f)
+        with open(meta_file, "rb") as f:
+            self.read_meta_file(f)
 
     def read_meta_file(self, f):
         ice = IceDecipher()
@@ -125,7 +132,7 @@ class MetaFile:
 
         # Return this point to the caller.
         return f.tell()
-    
+
     def read_file_blocks_forward(self, f, start, expectedFileBlockCount):
         self.fileBlocks = []
 
@@ -148,7 +155,7 @@ class MetaFile:
 
         # Done.
         return expectedFileBlockCount - len(self.fileBlocks), blockEnd
-    
+
     def read_file_blocks_backward(self, f, start, end, remaining, expectedFileBlockCount):
         if remaining == 0:
             # We have read all the file blocks. Nothing to do.
@@ -214,7 +221,7 @@ class MetaFile:
         # Each folder name contains 8 bytes hash, followed by a null terminated string.
         # The hash is not used in the game. We will ignore it.
         folderNames = []
-        offset = 8 # Skip the first hash.
+        offset = 8  # Skip the first hash.
         length = len(decrypted)
         while offset < length:
             # remember the current start point
@@ -249,4 +256,3 @@ class MetaFile:
 
         # done.
         return f.tell()
-

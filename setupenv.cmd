@@ -1,1 +1,1 @@
-@powershell.exe -nologo -noexit %~dp0src\env\\bdo-nsfw.ps1 %*
+@powershell.exe -nologo -noexit %~dp0src\env\bdo.ps1 %*

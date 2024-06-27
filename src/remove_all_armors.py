@@ -21,7 +21,7 @@ def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
         "event_costume",
     ]
 
-    # search through model files of all classes, select every .pac files under player folder with name "38_underwear"
+    # search through model files of all classes
     bdo_utils.logi("Patching models...")
     position = 0
     counter = 0
@@ -48,7 +48,7 @@ def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
 
 def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile):
     underwear_pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
-    armor_pattern = re.compile(r"p[a-z]+_(\d{2}|ew)_(ub|lb|hand|sho|underup|cloak|)_")
+    armor_pattern = re.compile(r"p[a-z]+_(\d{2}|ew)_(ub|lb|hand|sho|underup|cloak)_")
 
     # search all underwear textures. replace it with a dummy texture
     bdo_utils.logi("Patching underwear textures...")

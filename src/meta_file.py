@@ -1,23 +1,7 @@
 #!/usr/bin/python3
 
 import sys, pathlib, ctypes, pathlib
-from termcolor import colored
-
-
-def info(message, end="\n", flush=True):
-    # print to stdout
-    print(message, end=end, flush=flush)
-
-
-def warning(message):
-    # print to stderr
-    sys.stderr.write(colored(f"[WARNING] {message}\n", "yellow"))
-
-
-def rip(message):
-    # print to stderr and exit
-    sys.stderr.write(colored(f"[FATAL] {message}\n", "red"))
-    sys.exit(1)
+from bin import bdo_utils
 
 
 class FileBlock:
@@ -36,6 +20,9 @@ class FileBlock:
         self.zsize = int.from_bytes(meta_file.read(4), byteorder="little")
         # Next 4 bytes is size.
         self.size = int.from_bytes(meta_file.read(4), byteorder="little")
+
+    def fullPath(self):
+        return pathlib.Path(self.folderName) / self.fileName
 
 
 class IceDecipher:
@@ -68,8 +55,8 @@ class MetaFile:
     def __init__(self, paz_folder: pathlib.Path):
         meta_file = paz_folder / "pad00000.meta"
         if not meta_file.exists():
-            rip(f"{meta_file} does not exist. Make sure you are pointing to BDO's PAZ folder.")
-        info(f"Reading {meta_file}")
+            bdo_utils.rip(f"{meta_file} does not exist. Make sure you are pointing to BDO's PAZ folder.")
+        bdo_utils.logi(f"Reading {meta_file}")
         with open(meta_file, "rb") as f:
             self.read_meta_file(f)
 
@@ -91,10 +78,10 @@ class MetaFile:
 
         # We have read all we can. Check if there's anything still missing.
         if remaining > 0:
-            warning(f"Could not read all file blocks. {remaining} file blocks are missing.")
+            bdo_utils.logw(f"Could not read all file blocks. {remaining} file blocks are missing.")
 
         # Done reading file blocks. Print out how many we have read.
-        info(f"  Number of file blocks read: {len(self.fileBlocks)}")
+        bdo_utils.logi(f"  Number of file blocks read: {len(self.fileBlocks)}")
 
         # Decipher folder names, starting from where the file block table ends.
         offset = self.decipher_folder_names(f, ice, blockEnd)
@@ -113,8 +100,8 @@ class MetaFile:
         expectedFileBlockCount = int.from_bytes(f.read(4), byteorder="little")
 
         # print header information to console.
-        info(f"  Number of paz entries: {self.pazCount}")
-        info(f"  Number of file blocks expected: {expectedFileBlockCount}")
+        bdo_utils.logi(f"  Number of paz entries: {self.pazCount}")
+        bdo_utils.logi(f"  Number of file blocks expected: {expectedFileBlockCount}")
 
         # Done
         return expectedFileBlockCount
@@ -201,12 +188,13 @@ class MetaFile:
         f.seek(startOffset)
 
         # Read the encrypted folder names and decrypt them.
-        info("  Read and decrypt folder names...")
+        bdo_utils.logi("  Read and decrypt folder names...")
         length = int.from_bytes(f.read(4), byteorder="little")
         encrypted = f.read(length)
+        bdo_utils.logi(f"  Encrypted folder names length: {length}")
         decrypted = ice.decrypt(encrypted)
         folderNames = self.splitFolderNames(decrypted)
-        info(f"  Number of folder names decrypted: {len(folderNames)}")
+        bdo_utils.logi(f"  Number of folder names decrypted: {len(folderNames)}")
 
         # Update folder names for all blocks
         numFolders = len(folderNames)
@@ -231,28 +219,31 @@ class MetaFile:
                 offset += 1
             if offset < length:
                 # extract the folder name
-                folderNames.append(decrypted[begin:offset])
+                s = decrypted[begin:offset]
             else:
                 # this is the very last folder name, which is not null-terminated.
-                folderNames.append(decrypted[begin:])
+                s = decrypted[begin:]
+            # append the folder name list
+            folderNames.append(bdo_utils.decodeBinaryString(s))
             # move to the next folder name
             offset += 9
+
         return folderNames
 
     def decipher_file_names(self, f, ice, startOffset):
         f.seek(startOffset)
 
         # Read the encrypted file names and decrypt them.
-        info("  Read and decrypt file names...")
+        bdo_utils.logi("  Read and decrypt file names...")
         encryptedLength = int.from_bytes(f.read(4), byteorder="little")
         encrypted = f.read(encryptedLength)
         decrypted = ice.decrypt(encrypted)
         fileNames = decrypted.split(b"\x00")
-        info(f"  Number of file names decrypted: {len(fileNames)}")
+        bdo_utils.logi(f"  Number of file names decrypted: {len(fileNames)}")
 
         # Update folder names for all blocks
         for block in self.fileBlocks:
-            block.fileName = fileNames[block.fileNum]
+            block.fileName = bdo_utils.decodeBinaryString(fileNames[block.fileNum])
 
         # done.
         return f.tell()

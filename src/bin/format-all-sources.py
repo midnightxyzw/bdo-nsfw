@@ -2,8 +2,7 @@
 
 import sys, pathlib, subprocess, importlib, argparse, platform, concurrent.futures, threading, black
 from difflib import unified_diff
-
-utils = importlib.import_module("bdo-utils")
+import bdo_utils
 
 
 # Filter out unwanted files
@@ -82,7 +81,7 @@ def format_one_file(x, lock, clang_format, root_dir, dry_run=False, quiet=False)
 
 def format_all(dry_run=False, diff_only=False, quiet=False):
     # get the root directory of the code base
-    root_dir = utils.get_root_folder()
+    root_dir = bdo_utils.get_root_folder()
     if not quiet:
         print(f"Root directory: {root_dir}")
 

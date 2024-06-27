@@ -16,7 +16,7 @@ extern "C" ICE_API void decrypt_inplace(unsigned char *text, size_t length) {
 
   // decrypt in 8-byte blocks
   unsigned char buffer[8];
-  for (size_t i = 0; (i + 8) < length; i += 8) {
+  for (size_t i = 0; (i + 8) <= length; i += 8) {
     ice_key_decrypt(ice, (unsigned char *)text + i, buffer);
     memcpy(text + i, buffer, 8);
   }

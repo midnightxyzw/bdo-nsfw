@@ -1,1 +1,0 @@
-@python.exe -x "%~dp0main.py" %*

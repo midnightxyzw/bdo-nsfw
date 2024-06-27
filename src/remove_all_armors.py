@@ -1,12 +1,13 @@
 import pathlib, shutil, re
 import meta_file, remove_underwear
+from bin import bdo_utils
 
 
 def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
     # check if dummy pac file exists
     dummy_pac = pathlib.Path(__file__).parent.parent / "contrib/resorepless-v3.6f/patcher_resources/models/t0072_pumpkin_ground_0001.pac"
     if not dummy_pac.exists():
-        meta_file.rip("dummy.pac does not exist. Make sure it is in the same folder as this script.")
+        bdo_utils.rip("dummy.pac does not exist. Make sure it is in the same folder as this script.")
 
     patterns = [
         "9_upperbody",
@@ -21,20 +22,23 @@ def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
     ]
 
     # search through model files of all classes, select every .pac files under player folder with name "38_underwear"
-    meta_file.info("Patching models...")
+    bdo_utils.logi("Patching models...")
+    position = 0
+    counter = 0
+    total = len(meta.fileBlocks)
     for block in meta.fileBlocks:
+        position += 1
         # do not touch Shi class
-        if b"14_plw" in block.folderName:
+        if "14_plw" in block.folderName:
             continue
         # folder name needs to contain "1_pc"
-        if b"1_pc" not in block.folderName:
+        if "1_pc" not in block.folderName:
             continue
-        # folder name contains one of the word in the patterns
-        folderName = remove_underwear.decodeBinaryString(block.folderName)
-        if not any([p in folderName for p in patterns]):
+        if not any([p in block.folderName for p in patterns]):
             continue
-        fileName = remove_underwear.decodeBinaryString(block.fileName)
-        remove_underwear.generate_patch(outDir, dummy_pac, pathlib.Path(f"{folderName}/{fileName}"))
+        remove_underwear.generate_patch(outDir, dummy_pac, pathlib.Path(f"{block.folderName}/{block.fileName}"), percent=position * 100.0 / total)
+        counter += 1
+    bdo_utils.logi(f"\n  {counter} models patched.")
 
     # Generate .partcutdesc_exclusions.txt to match all patched models
     with open(outDir / ".partcutdesc_exclusions.txt", "w") as f:
@@ -47,35 +51,32 @@ def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile):
     armor_pattern = re.compile(r"p[a-z]+_(\d{2}|ew)_(ub|lb|hand|sho|underup|cloak|)_")
 
     # search all underwear textures. replace it with a dummy texture
-    meta_file.info("Patching underwear textures...")
+    bdo_utils.logi("Patching underwear textures...")
+    counter = 0
     for block in meta.fileBlocks:
         # folder name must contain "character/texture"
-        if b"character/texture" not in block.folderName:
+        if "character/texture" not in block.folderName:
             continue
         # file name must end with ".dds"
-        if not block.fileName.endswith(b".dds"):
+        if not block.fileName.endswith(".dds"):
             continue
         # do not touch SHI class
-        if b"plw_" in block.fileName:
+        if "plw_" in block.fileName:
             continue
         # only care about AO textures
-        if not b"_ao.dds" in block.fileName:
+        if not "_ao.dds" in block.fileName:
             continue
         # Ignore files already patched by remove_underwear.py
-        fileName = remove_underwear.decodeBinaryString(block.fileName)
-        if underwear_pattern.search(fileName):
+        if underwear_pattern.search(block.fileName):
             continue
         # Check if it is an armor texture
-        if not armor_pattern.search(fileName):
+        if not armor_pattern.search(block.fileName):
             continue
-
-        # Convert to pathlib.Path. Note that we have to do this after the checks above.
-        # since some folder name contains non-ascii characters that we don't know how to decode.
-        folder = pathlib.Path(remove_underwear.decodeBinaryString(block.folderName))
-        fullFilePath = folder / fileName
-
         # patch it with a dummy ao texture
+        fullFilePath = block.fullPath()
         remove_underwear.patch_with_dummy_ao_texture(outDir, fullFilePath, block.size)
+        counter += 1
+    bdo_utils.logi(f"\n  {counter} textures patched.")
 
 
 def remove_all_armors(outDir: pathlib.Path, meta: meta_file.MetaFile):

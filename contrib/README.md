@@ -20,3 +20,9 @@ This repository has a cooy of the following tools:
 https://www.undertow.club/downloads/black-desert-online-resorepless-nude-mod.2645/
 
 This was once the most famous and popluar BDO nude mod available. But it hasn't been maintained after year 2018. Many of new classes released in recent years are not property supported.
+
+# Nude body, Costume Mods for Meta Injector by Suzu
+
+https://www.undertow.club/threads/black-desert-online-nude-body-costume-mods-for-meta-injector-by-suzu.10110/
+
+Nude mesh and textures by famous modder Suzu.

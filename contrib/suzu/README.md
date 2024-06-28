@@ -1,1 +1,0 @@
-This folder contains popular BDO mods originated from the famous modder Suzu.

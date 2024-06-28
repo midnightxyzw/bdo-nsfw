@@ -3,6 +3,7 @@
 import sys, pathlib, ctypes, pathlib
 from bin import bdo_utils
 
+
 def tryDecodeBinaryString(binaryString):
     try:
         return binaryString.decode("ascii")
@@ -22,6 +23,7 @@ def decodeBinaryString(binaryString):
     if s is None:
         bdo_utils.rip(f"Failed to decode binary string: {binaryString}.")
     return s
+
 
 class FileBlock:
     def __init__(self, meta_file):

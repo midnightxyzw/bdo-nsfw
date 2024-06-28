@@ -1,8 +1,36 @@
 import pathlib, shutil, re, fnmatch
-import meta_file, remove_underwear
-from bin import bdo_utils
+import meta_file, remove_underwear, patcher
 
-def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requirement: callable = None):
+# Non pearl armor patterns
+free_items_regex = re.compile(
+    r""".*(
+                           _0[1|2|3]_.*_\d{4} # this is the default pattern for non cash shop armors
+                           ).*""",
+    re.VERBOSE,
+)
+
+
+def is_female_free_items(block: meta_file.FileBlock):
+    fullPath = str(block.fullPath())
+    return remove_underwear.female_regex.match(fullPath) and free_items_regex.match(fullPath)
+
+
+def is_female_pearl_items(block: meta_file.FileBlock):
+    fullPath = str(block.fullPath())
+    return remove_underwear.female_regex.match(fullPath) and (not free_items_regex.match(fullPath))
+
+
+def is_male_free_items(block: meta_file.FileBlock):
+    fullPath = str(block.fullPath())
+    return (not remove_underwear.female_regex.match(fullPath)) and free_items_regex.match(fullPath)
+
+
+def is_male_pearl_items(block: meta_file.FileBlock):
+    fullPath = str(block.fullPath())
+    return (not remove_underwear.female_regex.match(fullPath)) and (not free_items_regex.match(fullPath))
+
+
+def patch_models(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requirement: callable = None):
     inclusion_patterns = [
         "9_upperbody",
         "10_lowerbody",
@@ -15,89 +43,66 @@ def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requ
         "event_costume",
     ]
 
-    # search through model files of all classes
-    bdo_utils.logi("Patching models...")
-    position = 0
-    total = len(meta.fileBlocks)
-    patched = []
-    for block in meta.fileBlocks:
-        position += 1
-        # folder name needs to contain "1_pc"
-        if "1_pc" not in block.folderName:
-            continue
-        # do not touch Shi class
-        if "14_plw" in block.folderName:
-            continue
-        # check against inclusion patterns, if not matched, skip this block
+    def is_armor(block):
         if not any([p in block.folderName for p in inclusion_patterns]):
-            continue
-        # check against user provided conditions.
+            return False
         if additional_requirement is not None and not additional_requirement(block):
-            continue
-        # found it. patch it!
-        remove_underwear.patch_with_dummy_model(outDir, block.fullPath(), percent=position * 100.0 / total)
-        patched += [block]
-    bdo_utils.logi(f"\n  {len(patched)} models patched.")
+            return False
+        return True
 
-    # Generate .partcutdesc_exclusions.txt to match all patched models
-    with open(outDir / ".partcutdesc_exclusions.txt", "w") as f:
-        for block in patched:
-            f.write(str(block.fullPath()).replace("\\", "/").replace(".pac", "").replace("character/model/", "") + "\n")
+    patcher.hide_player_models(what, outDir, meta, is_armor)
 
-def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requirement: callable = None):
+
+def patch_textures(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requirement: callable = None):
     underwear_pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
     armor_pattern = re.compile(r"p[a-z]+_(\d{2}|ew)_(ub|lb|hand|sho|underup|cloak)_")
 
-    # search all underwear textures. replace it with a dummy texture
-    bdo_utils.logi("Patching underwear textures...")
-    counter = 0
-    for block in meta.fileBlocks:
-        # folder name must contain "character/texture"
-        if "character/texture" not in block.folderName:
-            continue
-        # do not touch Shi class
-        if "plw_" in block.fileName:
-            continue
-        # only care about AO textures
-        if not block.fileName.endswith("_ao.dds"):
-            continue
+    def is_armor_texture(block):
         # Ignore files already patched by remove_underwear.py
         if underwear_pattern.search(block.fileName):
-            continue
+            return False
         # Check if it is an armor texture
         if not armor_pattern.search(block.fileName):
-            continue
+            return False
         # check against user provided conditions.
         if additional_requirement is not None and not additional_requirement(block):
-            continue
-        # patch it with a dummy ao texture
-        fullFilePath = block.fullPath()
-        remove_underwear.patch_with_dummy_ao_texture(outDir, fullFilePath, block.size)
-        counter += 1
-    bdo_utils.logi(f"\n  {counter} textures patched.")
+            return False
+        return True
+
+    patcher.patch_player_ao_textures(what, outDir, meta, is_armor_texture)
 
 
 def remove_all_armors(outDir: pathlib.Path, meta: meta_file.MetaFile):
-    patch_models(outDir, meta)
-    patch_textures(outDir, meta)
+    # female free items
+    patch_models("Hide female free armor models", outDir / "_female_free_items", meta, is_female_free_items)
+    patch_textures("Patch female free armor AO textures", outDir / "_female_free_items", meta, is_female_free_items)
+
+    # female pearl items
+    patch_models("Hide female pearl armor models", outDir / "_female_pearl_items", meta, is_female_pearl_items)
+    patch_textures("Patch female pearl armor AO textures", outDir / "_female_pearl_items", meta, is_female_pearl_items)
+
+    # male free items
+    patch_models("Hide male free armor models", outDir / "_male_free_items", meta, is_male_free_items)
+    patch_textures("Patch male free armor AO textures", outDir / "_male_free_items", meta, is_male_free_items)
+
+    # male pearl items
+    patch_models("Hide male pearl armor models", outDir / "_male_pearl_items", meta, is_male_pearl_items)
+    patch_textures("Patch male pearl armor AO textures", outDir / "_male_pearl_items", meta, is_male_pearl_items)
+
     # generate a readme file
     with open(outDir / ".README.md", "w") as f:
         f.write(
             """# What's this?
 
-This folder contains patch files to hide all armors, except boots, from all player classes up to release of Scholar.
+This folder contains patch files to hide all armors, except boots,
+from all playable classes, except Shai, up to release of Scholar.
+
+Generated by Midnight Xyzw (https://github.com/midnightxyzw/bdo-nsfw)
 
 # How to use it?
 
 - Put it under files_to_patch folder.
 - Run PartCutGen.exe to refresh your partcuts_desc.xml
 - Run Meta Injector.exe to patch your game.
-
-# Release Notes
-
-- No nude mesh/skin contained here. It is intended to be used with your own
-  collection of nude mods and armor patches.
-
-- Generated by Midnight Xyzw's BDO NSFW patch.
 """
         )

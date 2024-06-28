@@ -1,7 +1,0 @@
-1_pc/*/9_upperbody/
-1_pc/*/10_lowerbody/
-1_pc/*/11_hand/
-1_pc/*/14_sho/
-1_pc/*/15_underup/
-1_pc/*/19_cloak/
-1_pc/*/event_costume/

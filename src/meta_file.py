@@ -3,6 +3,25 @@
 import sys, pathlib, ctypes, pathlib
 from bin import bdo_utils
 
+def tryDecodeBinaryString(binaryString):
+    try:
+        return binaryString.decode("ascii")
+    except UnicodeDecodeError:
+        try:
+            s = binaryString.decode("euc-kr")
+            bdo_utils.logw(f"Encountered a korean string: {s}.")
+            return s
+        except UnicodeDecodeError:
+            bdo_utils.loge(f"Failed to decode binary string: {binaryString}.")
+            return None
+
+
+# Decode binary string. RIP if failed.
+def decodeBinaryString(binaryString):
+    s = tryDecodeBinaryString(binaryString)
+    if s is None:
+        bdo_utils.rip(f"Failed to decode binary string: {binaryString}.")
+    return s
 
 class FileBlock:
     def __init__(self, meta_file):
@@ -224,7 +243,7 @@ class MetaFile:
                 # this is the very last folder name, which is not null-terminated.
                 s = decrypted[begin:]
             # append the folder name list
-            folderNames.append(bdo_utils.decodeBinaryString(s))
+            folderNames.append(decodeBinaryString(s))
             # move to the next folder name
             offset += 9
 
@@ -243,7 +262,7 @@ class MetaFile:
 
         # Update folder names for all blocks
         for block in self.fileBlocks:
-            block.fileName = bdo_utils.decodeBinaryString(fileNames[block.fileNum])
+            block.fileName = decodeBinaryString(fileNames[block.fileNum])
 
         # done.
         return f.tell()

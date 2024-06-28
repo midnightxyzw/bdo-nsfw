@@ -4,6 +4,32 @@ import pathlib, shutil, re
 import meta_file
 from bin import bdo_utils
 
+# Starter patterns
+starter_regex = re.compile(r'''.*(
+                           _0[1|2|3]_.*_\d{4} # this is the default pattern for non cash shop armors
+                           ).*''', re.VERBOSE)
+
+# female class patterns
+female_regex = re.compile(r'''.*(
+                          p[a-z]+w_ # most of female classes fall into this pattern
+                          |pmyf_ # Woosa's ID is special
+                          )''', re.VERBOSE)
+
+def is_female_starter(block: meta_file.FileBlock):
+    fullPath = block.fullPath()
+    return female_regex.match(fullPath) and starter_regex.match(fullPath)
+
+def is_female_non_starter(block: meta_file.FileBlock):
+    fullPath = block.fullPath()
+    return female_regex.match(fullPath) and (not starter_regex.match(fullPath))
+
+def is_male_starter(block: meta_file.FileBlock):
+    fullPath = block.fullPath()
+    return (not female_regex.match(fullPath)) and starter_regex.match(fullPath)
+
+def is_male_non_starter(block: meta_file.FileBlock):
+    fullPath = block.fullPath()
+    return (not female_regex.match(fullPath)) and (not starter_regex.match(fullPath))
 
 def generate_patch(outRootDir: pathlib.Path, sourcePath: str, targetLocationWithinOutDir: str | pathlib.Path, percent: float | None = None):
     outFile = outRootDir / targetLocationWithinOutDir
@@ -15,42 +41,28 @@ def generate_patch(outRootDir: pathlib.Path, sourcePath: str, targetLocationWith
     else:
         bdo_utils.logi(f"\r\033[K  {targetLocationWithinOutDir} patched!.", end="", flush=True)
 
+def patch_with_dummy_model(outDir, targetLocationWithinOutDir : str | pathlib.Path, percent: float | None = None):
+    dummy_pac = pathlib.Path(__file__).parent / "dummy.pac"
+    generate_patch(outDir, dummy_pac, targetLocationWithinOutDir, percent)
 
 def patch_with_blank_texture(outRootDir, targetLocationWithinOutDir, originalFileSize):
     # Choose a blank texture file based on size of the original texture
-    resorepless = pathlib.Path(__file__).parent.parent / "contrib/resorepless-v3.6f/patcher_resources/texture"
     if originalFileSize < 1000000:
-        source = resorepless / "blank_dxt1.dds"
+        source = pathlib.Path(__file__).parent / "blank_dxt1.dds"
     else:
-        source = resorepless / "blank_dxt5.dds"
+        source = pathlib.Path(__file__).parent / "blank_dxt5.dds"
     generate_patch(outRootDir, source, targetLocationWithinOutDir)
-
 
 def patch_with_dummy_ao_texture(outRootDir, targetLocationWithinOutDir, originalFileSize):
-    resorepless = pathlib.Path(__file__).parent.parent / "contrib/resorepless-v3.6f/patcher_resources/texture"
-    if "pdw_00_uw_0001_ao.dds" in str(targetLocationWithinOutDir):
-        source = resorepless / "pdw_00_uw_0001_ao.dds"
-    elif originalFileSize > 600000:
-        source = resorepless / "blank_ao_683.dds"
-    elif originalFileSize > 170000:
-        source = resorepless / "blank_ao_171.dds"
-    elif originalFileSize > 43000:
-        source = resorepless / "blank_ao_43.dds"
-    else:
-        # default to 171 version.
-        source = resorepless / "blank_ao_171.dds"
+    source = pathlib.Path(__file__).parent / "blank_ao.dds"
+    # if "pdw_00_uw_0001_ao.dds" in str(targetLocationWithinOutDir):
+    #     source = pathlib.Path(__file__).parent / "pdw_00_uw_0001_ao.dds"
     generate_patch(outRootDir, source, targetLocationWithinOutDir)
 
-
-def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
-    # check if dummy pac file exists
-    dummy_pac = pathlib.Path(__file__).parent.parent / "contrib/resorepless-v3.6f/patcher_resources/models/t0072_pumpkin_ground_0001.pac"
-    if not dummy_pac.exists():
-        bdo_utils.rip("dummy.pac does not exist. Make sure it is in the same folder as this script.")
-
+def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requirement: callable = None):
     # search through model files of all classes, select every .pac files under player folder with name "38_underwear"
     bdo_utils.logi("Patching underwear models...")
-    counter = 0
+    patched = []
     for block in meta.fileBlocks:
         # folder name needs to contain both "1_pc" and "38_underwear"
         if "1_pc" not in block.folderName:
@@ -63,22 +75,24 @@ def patch_models(outDir: pathlib.Path, meta: meta_file.MetaFile):
         # file name must end with ".pac"
         if not block.fileName.endswith(".pac"):
             continue
+        # do additional checks
+        if additional_requirement is not None and not additional_requirement(block):
+            continue
         # found it. patch it with an the dummy pac file
-        fullFilePath = block.fullPath()
-        generate_patch(outDir, dummy_pac, fullFilePath)
-        counter += 1
-    bdo_utils.logi(f"\n  {counter} models patched.")
+        patch_with_dummy_model(outDir, block.fullPath())
+        patched += [block]
+    bdo_utils.logi(f"\n  {len(patched)} models patched.")
 
     # Generate .partcutdesc_exclusions.txt to match all patched models
     with open(outDir / ".partcutdesc_exclusions.txt", "w") as f:
-        f.write("1_pc/*/38_underwear/\n")
+        for block in patched:
+            f.write(str(block.fullPath()).replace("\\", "/").replace(".pac", "").replace("character/model/", "") + "\n")
 
-
-def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile):
+def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requirement: callable = None):
     pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
 
     def is_underwear_texture(fileName):
-        # do not touch SHI class
+        # do not touch Shi class
         if "plw_" in fileName:
             return False, False
         # file name must contain either "_##_uw_" or "_99_ub_"
@@ -118,6 +132,10 @@ def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile):
         if not needToPath:
             continue
 
+        # do additional checks
+        if additional_requirement is not None and not additional_requirement(block):
+            continue
+
         # found it. replace it with an blank or dummy texture
         fullFilePath = block.fullPath()
         if isAO:
@@ -133,6 +151,22 @@ def patch_textures(outDir: pathlib.Path, meta: meta_file.MetaFile):
 def remove_underwear(outDir: pathlib.Path, meta: meta_file.MetaFile):
     patch_models(outDir, meta)
     patch_textures(outDir, meta)
+    # # female starter
+    # patch_models(outDir / "_female_starter", meta, is_female_starter)
+    # patch_textures(outDir / "_female_starter", meta, is_female_starter)
+
+    # # female non-starter
+    # patch_models(outDir / "_female_non_starter", meta, is_female_non_starter)
+    # patch_textures(outDir / "_female_non_starter", meta, is_female_non_starter)
+
+    # # male starter
+    # patch_models(outDir / "_male_starter", meta, is_male_starter)
+    # patch_textures(outDir / "_male_starter", meta, is_male_starter)
+
+    # # male non-starter
+    # patch_models(outDir / "_male_non_starter", meta, is_male_non_starter)
+    # patch_textures(outDir / "_male_non_starter", meta, is_male_non_starter)
+
     # generate a readme file
     with open(outDir / ".README.md", "w") as f:
         f.write(
@@ -147,11 +181,5 @@ all player classes up to release of Scholar.
 - Run PartCutGen.exe to refresh your partcuts_desc.xml
 - Run Meta Injector.exe to patch your game.
 
-# Release Notes
-
-- No nude mesh/skin contained here. It is intended to be used with your own
-  collection of nude mods and armor patches.
-
-- Generated by Midnight Xyzw's BDO NSFW patch.
 """
         )

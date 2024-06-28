@@ -27,24 +27,3 @@ def logi(message, end="\n", flush=True):
 
 def get_root_folder():
     return pathlib.Path(__file__).resolve().parent.parent.parent.absolute()
-
-
-def tryDecodeBinaryString(binaryString):
-    try:
-        return binaryString.decode("ascii")
-    except UnicodeDecodeError:
-        try:
-            s = binaryString.decode("euc-kr")
-            logw(f"Encountered a korean string: {s}.")
-            return s
-        except UnicodeDecodeError:
-            loge(f"Failed to decode binary string: {binaryString}.")
-            return None
-
-
-# Decode binary string. RIP if failed.
-def decodeBinaryString(binaryString):
-    s = tryDecodeBinaryString(binaryString)
-    if s is None:
-        rip(f"Failed to decode binary string: {binaryString}.")
-    return s

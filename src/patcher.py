@@ -57,8 +57,9 @@ def hide_player_models(what: str, outRootDir: pathlib.Path, meta: meta_file.Meta
     # search through model files of all classes
     bdo_utils.logi(what)
     position = 0
+    count = 0
     total = len(meta.fileBlocks)
-    patched = []
+    patched = {}
     for block in meta.fileBlocks:
         position += 1
         # folder name needs to contain "1_pc"
@@ -73,13 +74,17 @@ def hide_player_models(what: str, outRootDir: pathlib.Path, meta: meta_file.Meta
             continue
         # Hide it by replacing it with a dummy mesh.
         patch_with_dummy_model(outDir, block.fullPath(), percent=position * 100.0 / total)
-        patched += [block]
-    bdo_utils.logi(f"\n  {len(patched)} models patched.")
+        if outDir in patched:
+            patched[outDir].append(block)
+        else:
+            patched[outDir] = [block]
+        count += 1
+    bdo_utils.logi(f"\n  {count} models patched.")
 
     # Generate .partcutdesc_exclusions.txt to match all patched models
-    if len(patched) > 0:
-        with open(outRootDir / ".partcutdesc_exclusions.txt", "w") as f:
-            for block in patched:
+    for folder, items in patched.items():
+        with open(folder / ".partcutdesc_exclusions.txt", "w") as f:
+            for block in items:
                 f.write(str(block.fullPath()).replace("\\", "/").replace(".pac", "").replace("character/model/", "") + "\n")
 
 

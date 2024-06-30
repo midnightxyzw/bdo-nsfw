@@ -1,7 +1,16 @@
-import pathlib, shutil, re, fnmatch
-import meta_file, remove_underwear
+import pathlib, shutil, abc
+import meta_file
 from bin import bdo_utils
 
+class FileCategorizer(abc.ABC):
+    @abc.abstractmethod
+    def categorize(self, block: meta_file.FileBlock) -> str | None:
+        """
+        Returns the category name the block belongs to.
+        Returns None, if the file should be ignored.
+        Returns empty string if the file does not belong to any category.
+        """
+        pass
 
 def generate_patch(outRootDir: pathlib.Path, sourcePath: str, targetLocationWithinOutDir: str | pathlib.Path, percent: float | None = None):
     outFile = outRootDir / targetLocationWithinOutDir
@@ -34,8 +43,17 @@ def patch_with_dummy_ao_texture(outRootDir, targetLocationWithinOutDir, original
     #     source = pathlib.Path(__file__).parent / "pdw_00_uw_0001_ao.dds"
     generate_patch(outRootDir, source, targetLocationWithinOutDir)
 
+def categorize(outRootDir: pathlib.Path, fileBlock: meta_file.FileBlock, categorizer: FileCategorizer) -> pathlib.Path | None:
+    category = categorizer.categorize(fileBlock)
+    if category is None: # ignore this file
+        return None
+    if category == "":
+        return outRootDir
+    else:
+        if not category.startswith("_"): category = "_" + category
+        return outRootDir / category
 
-def hide_player_models(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile, inclusions: callable = None, exclusions: callable = None):
+def hide_player_models(what: str, outRootDir: pathlib.Path, meta: meta_file.MetaFile, categorizer: FileCategorizer):
     # search through model files of all classes
     bdo_utils.logi(what)
     position = 0
@@ -49,25 +67,23 @@ def hide_player_models(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile
         # do not touch Shi class
         if "14_plw" in block.folderName:
             continue
-        # check against inclusion conditions, if not met, skip this block
-        if inclusions is not None and not inclusions(block):
+        # check against categorizer
+        outDir = categorize(outRootDir, block, categorizer)
+        if outDir is None:
             continue
-        # check against exclusion conditions, if met, skip this block.
-        if exclusions is not None and exclusions(block):
-            continue
-        # found it. hide it by replacing it with a dummy mesh.
+        # Hide it by replacing it with a dummy mesh.
         patch_with_dummy_model(outDir, block.fullPath(), percent=position * 100.0 / total)
         patched += [block]
     bdo_utils.logi(f"\n  {len(patched)} models patched.")
 
     # Generate .partcutdesc_exclusions.txt to match all patched models
     if len(patched) > 0:
-        with open(outDir / ".partcutdesc_exclusions.txt", "w") as f:
+        with open(outRootDir / ".partcutdesc_exclusions.txt", "w") as f:
             for block in patched:
                 f.write(str(block.fullPath()).replace("\\", "/").replace(".pac", "").replace("character/model/", "") + "\n")
 
 
-def patch_player_ao_textures(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile, inclusions: callable = None, exclusions: callable = None):
+def patch_player_ao_textures(what: str, outRootDir: pathlib.Path, meta: meta_file.MetaFile, categorizer: FileCategorizer):
     # search through all character textures. replace it with a dummy texture
     bdo_utils.logi(what)
     counter = 0
@@ -81,13 +97,11 @@ def patch_player_ao_textures(what: str, outDir: pathlib.Path, meta: meta_file.Me
         # only care about AO textures
         if not block.fileName.endswith("_ao.dds"):
             continue
-        # check against inclusion patterns.
-        if inclusions is not None and not inclusions(block):
-            continue
-        if exclusions is not None and exclusions(block):
+        # check against categorizer
+        outDir = categorize(outRootDir, block, categorizer)
+        if outDir is None:
             continue
         # patch it with a dummy ao texture
-        fullFilePath = block.fullPath()
-        patch_with_dummy_ao_texture(outDir, fullFilePath, block.size)
+        patch_with_dummy_ao_texture(outDir, block.fullPath(), block.size)
         counter += 1
     bdo_utils.logi(f"\n  {counter} textures patched.")

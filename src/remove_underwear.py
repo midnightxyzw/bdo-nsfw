@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import pathlib, shutil, re
+import pathlib, abc, re
 import meta_file, patcher
 
 # female class patterns
@@ -12,56 +12,27 @@ female_regex = re.compile(
     re.VERBOSE,
 )
 
-
-def is_female(block: meta_file.FileBlock):
-    fullPath = str(block.fullPath())
-    return female_regex.match(fullPath)
-
-
-def is_male(block: meta_file.FileBlock):
-    fullPath = str(block.fullPath())
-    return not female_regex.match(fullPath)
-
-
-def patch_models(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile, inclusions: callable = None):
-    # search through model files of all classes, select every .pac files under player folder with name "38_underwear"
-    def is_underwear_model(block: meta_file.FileBlock):
+class UnderwearModelCategorizer(patcher.FileCategorizer):
+    def categorize(self, block: meta_file.FileBlock):
         if "38_underwear" not in block.folderName:
-            return False
-        if inclusions is not None and not inclusions(block):
-            return False
-        return True
+            return None
+        fullPath = str(block.fullPath())
+        return "female" if female_regex.match(fullPath) else "male"
 
-    patcher.hide_player_models(what, outDir, meta, is_underwear_model)
+class UnderwearTextureCategorizer(patcher.FileCategorizer):
+    def __init__(self):
+        # file name must contain either "_##_uw_" or "_99_ub_"
+        self.pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
 
-
-def patch_textures(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile, inclusions: callable = None):
-    # file name must contain either "_##_uw_" or "_99_ub_"
-    pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
-
-    def is_underwear_texture(block: meta_file.FileBlock):
-        if not pattern.search(block.fileName):
-            return False
-        if inclusions is not None and not inclusions(block):
-            return False
-        return True
-
-    patcher.patch_player_ao_textures(what, outDir, meta, is_underwear_texture)
-
+    def categorize(self, block: meta_file.FileBlock):
+        if not self.pattern.search(block.fileName):
+            return None
+        fullPath = str(block.fullPath())
+        return "female" if female_regex.match(fullPath) else "male"
 
 def remove_underwear(outDir: pathlib.Path, meta: meta_file.MetaFile):
-    # patch_models(outDir, meta)
-    # patch_textures(outDir, meta)
-
-    # female
-    patch_models("Hide female underwear models...", outDir / "_female", meta, is_female)
-    patch_textures("Patch female underwear AO textures...", outDir / "_female", meta, is_female)
-
-    # male free items
-    patch_models("Hide male underwear models...", outDir / "_male", meta, is_male)
-    patch_textures("Patch male underwear AO textures", outDir / "_male", meta, is_male)
-
-    # generate a readme file
+    patcher.hide_player_models("Hide underwear models...", outDir, meta, UnderwearModelCategorizer())
+    patcher.patch_player_ao_textures("Patch underwear AO textures...", outDir, meta, UnderwearTextureCategorizer())
     with open(outDir / ".README.md", "w") as f:
         f.write(
             """# What's this?

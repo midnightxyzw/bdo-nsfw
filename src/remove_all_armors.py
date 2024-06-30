@@ -1,4 +1,4 @@
-import pathlib, shutil, re, fnmatch
+import pathlib, re, abc
 import meta_file, remove_underwear, patcher
 
 # Non pearl armor patterns
@@ -9,87 +9,58 @@ free_items_regex = re.compile(
     re.VERBOSE,
 )
 
+class ArmorCategorizer (patcher.FileCategorizer):
+    @abc.abstractmethod
+    def is_included(self, block: meta_file.FileBlock):
+        pass
 
-def is_female_free_items(block: meta_file.FileBlock):
-    fullPath = str(block.fullPath())
-    return remove_underwear.female_regex.match(fullPath) and free_items_regex.match(fullPath)
+    def categorize(self, block: meta_file.FileBlock):
+        if not self.is_included(block): return None
+        fullPath = str(block.fullPath())
+        if remove_underwear.female_regex.match(fullPath):
+            if free_items_regex.match(fullPath):
+                return "female_free_items"
+            else:
+                return "female_pearl_items"
+        else:
+            if free_items_regex.match(fullPath):
+                return "male_free_items"
+            else:
+                return "male_pearl_items"
 
+class ArmorModelCategorizer(ArmorCategorizer):
+    def __init__(self):
+        self.patterns = [
+            "9_upperbody",
+            "10_lowerbody",
+            "11_hand",
+            # "12_foot", keep boots on to avoid heel floating
+            # "13_hel", keep helmets on to avoid missing hair/head
+            "14_sho",
+            "15_underup",
+            "19_cloak",
+            "event_costume",
+        ]
 
-def is_female_pearl_items(block: meta_file.FileBlock):
-    fullPath = str(block.fullPath())
-    return remove_underwear.female_regex.match(fullPath) and (not free_items_regex.match(fullPath))
-
-
-def is_male_free_items(block: meta_file.FileBlock):
-    fullPath = str(block.fullPath())
-    return (not remove_underwear.female_regex.match(fullPath)) and free_items_regex.match(fullPath)
-
-
-def is_male_pearl_items(block: meta_file.FileBlock):
-    fullPath = str(block.fullPath())
-    return (not remove_underwear.female_regex.match(fullPath)) and (not free_items_regex.match(fullPath))
-
-
-def patch_models(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requirement: callable = None):
-    inclusion_patterns = [
-        "9_upperbody",
-        "10_lowerbody",
-        "11_hand",
-        # "12_foot", keep boots on to avoid heel floating
-        # "13_hel", keep helmets on to avoid missing hair/head
-        "14_sho",
-        "15_underup",
-        "19_cloak",
-        "event_costume",
-    ]
-
-    def is_armor(block):
-        if not any([p in block.folderName for p in inclusion_patterns]):
-            return False
-        if additional_requirement is not None and not additional_requirement(block):
-            return False
-        return True
-
-    patcher.hide_player_models(what, outDir, meta, is_armor)
+    def is_included(self, block: meta_file.FileBlock):
+        return any([p in block.folderName for p in self.patterns])
 
 
-def patch_textures(what: str, outDir: pathlib.Path, meta: meta_file.MetaFile, additional_requirement: callable = None):
-    underwear_pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
-    armor_pattern = re.compile(r"p[a-z]+_(\d{2}|ew)_(ub|lb|hand|sho|underup|cloak)_")
+class ArmorTextureCategorizer(ArmorCategorizer):
+    def __init__(self):
+        self.underwear_pattern = re.compile(r"_\d{2}_uw_|_99_ub_")
+        self.armor_pattern = re.compile(r"p[a-z]+_(\d{2}|ew)_(ub|lb|hand|sho|underup|cloak)_")
 
-    def is_armor_texture(block):
+    def is_included(self, block: meta_file.FileBlock):
         # Ignore files already patched by remove_underwear.py
-        if underwear_pattern.search(block.fileName):
+        if self.underwear_pattern.search(block.fileName):
             return False
         # Check if it is an armor texture
-        if not armor_pattern.search(block.fileName):
-            return False
-        # check against user provided conditions.
-        if additional_requirement is not None and not additional_requirement(block):
-            return False
-        return True
-
-    patcher.patch_player_ao_textures(what, outDir, meta, is_armor_texture)
-
+        return self.armor_pattern.search(block.fileName)
 
 def remove_all_armors(outDir: pathlib.Path, meta: meta_file.MetaFile):
-    # female free items
-    patch_models("Hide female free armor models", outDir / "_female_free_items", meta, is_female_free_items)
-    patch_textures("Patch female free armor AO textures", outDir / "_female_free_items", meta, is_female_free_items)
-
-    # female pearl items
-    patch_models("Hide female pearl armor models", outDir / "_female_pearl_items", meta, is_female_pearl_items)
-    patch_textures("Patch female pearl armor AO textures", outDir / "_female_pearl_items", meta, is_female_pearl_items)
-
-    # male free items
-    patch_models("Hide male free armor models", outDir / "_male_free_items", meta, is_male_free_items)
-    patch_textures("Patch male free armor AO textures", outDir / "_male_free_items", meta, is_male_free_items)
-
-    # male pearl items
-    patch_models("Hide male pearl armor models", outDir / "_male_pearl_items", meta, is_male_pearl_items)
-    patch_textures("Patch male pearl armor AO textures", outDir / "_male_pearl_items", meta, is_male_pearl_items)
-
-    # generate a readme file
+    patcher.hide_player_models("Hide armor models", outDir, meta, ArmorModelCategorizer())
+    patcher.patch_player_ao_textures("Patch armor AO textures", outDir, meta, ArmorTextureCategorizer())
     with open(outDir / ".README.md", "w") as f:
         f.write(
             """# What's this?

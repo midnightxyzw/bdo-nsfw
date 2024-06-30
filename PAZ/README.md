@@ -31,6 +31,17 @@ There's currently no options like the resorpless mod used to have. Adding those 
 
 Just submit your PR if you like. Or feel free to fork and modify it however you like.
 
+# Work In Progress
+
+- Verified against 06/26/2024 official patch on NA server.
+- What's New:
+  - Added 2 independent switches to control which subset of armors to hide:
+    - switch #1: Female VS. male
+    - switch #2: Free VS. Pearl Items.
+    - So total 4 sub categories you can choose from.
+- Know Issues:
+  - Pearl outfits seperation works mostly fine, with a few exceptions. I found that the following pearl outfits are somehow categoriezed as free items: Bern, Blanchard, Binari. There might be more.
+
 # v0.2.0 Release Notes (06/26/2024)
 
 - Verified against 06/26/2024 official patch on NA server.

@@ -119,16 +119,18 @@ if ($clear) {
 
 # Prompt for missing arguments
 if (-not $gender) {
-    $gender = ($(read-host -Prompt "Which gender's armor you want to hide. F(emale), M(ale) or B(oth)").toupper())
+    $gender = ($(read-host -Prompt "Which gender's armor you want to hide? F(emale), M(ale) or B(oth)").toupper())
 }
-if(-not (@("F", "M", "B") -contains $gender)) {
-    rip("Invalid gender selection.")
+$valid_gender_options = @("F", "M", "B")
+if(-not ($valid_gender_options -contains $gender)) {
+    rip("Invalid gender selection. Must be oene of $($valid_gender_options -join ', ')")
 }
 if (-not $armor) {
     $armor = ($(read-host -Prompt "What kind of armors you want to hide? P(earl), F(ree) or A(all)").toupper())
 }
-if(-not (@("P", "F", "A") -contains $armor)) {
-    rip("Invalid armor selection.")
+$valid_armor_options = @("P", "F", "A")
+if(-not ($valid_armor_options -contains $armor)) {
+    rip("Invalid armor selection. Must be one of: $($valid_armor_options -join ', ')")
 }
 
 # Give user a chance to double confirm the seletion.

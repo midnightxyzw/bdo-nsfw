@@ -199,3 +199,6 @@ foreach($mod in $mods) {
     deploy_mod -dest "$dest_folder/$mod" -source "${source_folder}/$mod"
 }
 
+# the end
+write-host ""
+write-host "All done."

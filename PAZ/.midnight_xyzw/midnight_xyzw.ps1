@@ -82,7 +82,7 @@ function shorter {
     param (
         $fullPath
     )
-    $newString = $fullPath.Replace("$PSScriptRoot/", "")
+    $newString = $fullPath.Replace("$pazDir/", "")
     return $newString
 }
 
@@ -107,9 +107,9 @@ write-host "Welcome to Midnight Xyzw mod. This script will customize the mod bas
 write-host ""
 
 # initialize key folder variabes
-$scriptDir = $PSScriptRoot
-$source_folder="${scriptDir}/.midnight_xyzw"
-$dest_folder = "${scriptDir}/files_to_patch/_midnight_xyzw"
+$pazDir = split-path -path $PSScriptRoot -parent
+$source_folder="${pazDir}/.midnight_xyzw"
+$dest_folder = "${pazDir}/files_to_patch/_midnight_xyzw"
 
 # check if it is clean up code.
 if ($clear) {

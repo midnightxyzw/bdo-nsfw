@@ -23,8 +23,9 @@ There's currently no options like the resorpless mod used to have. Adding those 
 1. Make sure your game is not patched in any way. Applying this mod on an already patched game is not tested.
 2. Copy everything in this folder and sub folders to your game's PAZ folder.
 3. From the game's PAZ folder, do the following to patch the game:
-   1. Run [PartCutGen.exe](PartCutGen.exe) and follow screen instructions to refresh the part cut exclusion list.
-   2. Run [Meta Injector.exe](<Meta Injector.exe>) and follow screen instructions to patch your game.
+   1. Run [midnight_xyzw.cmd](midnight_xyzw.cmd) and follow screen instructions to customize the mod.
+   2. Run [PartCutGen.exe](PartCutGen.exe) and follow screen instructions to refresh the part cut exclusion list.
+   3. Run [Meta Injector.exe](<Meta Injector.exe>) and follow screen instructions to patch your game.
 4. Have Fun!
 
 # Want to contribute?

@@ -12,12 +12,14 @@ female_regex = re.compile(
     re.VERBOSE,
 )
 
+
 class UnderwearModelCategorizer(patcher.FileCategorizer):
     def categorize(self, block: meta_file.FileBlock):
         if "38_underwear" not in block.folderName:
             return None
         fullPath = str(block.fullPath())
         return "female" if female_regex.match(fullPath) else "male"
+
 
 class UnderwearTextureCategorizer(patcher.FileCategorizer):
     def __init__(self):
@@ -29,6 +31,7 @@ class UnderwearTextureCategorizer(patcher.FileCategorizer):
             return None
         fullPath = str(block.fullPath())
         return "female" if female_regex.match(fullPath) else "male"
+
 
 def remove_underwear(outDir: pathlib.Path, meta: meta_file.MetaFile):
     patcher.hide_player_models("Hide underwear models...", outDir, meta, UnderwearModelCategorizer())

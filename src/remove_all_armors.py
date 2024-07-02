@@ -9,13 +9,15 @@ free_items_regex = re.compile(
     re.VERBOSE,
 )
 
-class ArmorCategorizer (patcher.FileCategorizer):
+
+class ArmorCategorizer(patcher.FileCategorizer):
     @abc.abstractmethod
     def is_included(self, block: meta_file.FileBlock):
         pass
 
     def categorize(self, block: meta_file.FileBlock):
-        if not self.is_included(block): return None
+        if not self.is_included(block):
+            return None
         fullPath = str(block.fullPath())
         if remove_underwear.female_regex.match(fullPath):
             if free_items_regex.match(fullPath):
@@ -27,6 +29,7 @@ class ArmorCategorizer (patcher.FileCategorizer):
                 return "male_free_items"
             else:
                 return "male_pearl_items"
+
 
 class ArmorModelCategorizer(ArmorCategorizer):
     def __init__(self):
@@ -57,6 +60,7 @@ class ArmorTextureCategorizer(ArmorCategorizer):
             return False
         # Check if it is an armor texture
         return self.armor_pattern.search(block.fileName)
+
 
 def remove_all_armors(outDir: pathlib.Path, meta: meta_file.MetaFile):
     patcher.hide_player_models("Hide armor models", outDir, meta, ArmorModelCategorizer())

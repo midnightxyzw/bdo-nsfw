@@ -2,6 +2,7 @@ import pathlib, shutil, abc
 import meta_file
 from bin import bdo_utils
 
+
 class FileCategorizer(abc.ABC):
     @abc.abstractmethod
     def categorize(self, block: meta_file.FileBlock) -> str | None:
@@ -11,6 +12,7 @@ class FileCategorizer(abc.ABC):
         Returns empty string if the file does not belong to any category.
         """
         pass
+
 
 def generate_patch(outRootDir: pathlib.Path, sourcePath: str, targetLocationWithinOutDir: str | pathlib.Path, percent: float | None = None):
     outFile = outRootDir / targetLocationWithinOutDir
@@ -43,15 +45,18 @@ def patch_with_dummy_ao_texture(outRootDir, targetLocationWithinOutDir, original
     #     source = pathlib.Path(__file__).parent / "pdw_00_uw_0001_ao.dds"
     generate_patch(outRootDir, source, targetLocationWithinOutDir)
 
+
 def categorize(outRootDir: pathlib.Path, fileBlock: meta_file.FileBlock, categorizer: FileCategorizer) -> pathlib.Path | None:
     category = categorizer.categorize(fileBlock)
-    if category is None: # ignore this file
+    if category is None:  # ignore this file
         return None
     if category == "":
         return outRootDir
     else:
-        if not category.startswith("_"): category = "_" + category
+        if not category.startswith("_"):
+            category = "_" + category
         return outRootDir / category
+
 
 def hide_player_models(what: str, outRootDir: pathlib.Path, meta: meta_file.MetaFile, categorizer: FileCategorizer):
     # search through model files of all classes

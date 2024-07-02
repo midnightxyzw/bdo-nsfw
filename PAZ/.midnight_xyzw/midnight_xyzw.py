@@ -10,7 +10,7 @@ class GenderSelection(enum.Enum):
 
     @staticmethod
     def choices(indent: str = ""):
-        return indent + f"\n{indent}".join([f"{e.name}: {e.value}" for e in OutfitType])
+        return indent + f"\n{indent}".join([f"{e.name}: {e.value}" for e in GenderSelection])
 
 
 class OutfitType(enum.Enum):
@@ -92,7 +92,7 @@ def check_gender(name: str, gender: GenderSelection):
 def check_outfit_type(name: str, outfit_type: OutfitType):
     if OutfitType.P == outfit_type:
         return "_pearl" in name
-    elif OutfitType.R == outfit_type:
+    elif OutfitType.F == outfit_type:
         return "_free" in name
     else:
         return True
@@ -185,7 +185,7 @@ if "__main__" == __name__:
     def prompt(question, enum_class):
         while True:
             try:
-                value = input(question)
+                value = input(question + " Possible options are:\n" + enum_class.choices("\t") + "\nYour choice is : ")
                 return enum_type(enum_class)(value)
             except argparse.ArgumentTypeError as e:
                 print(e)
@@ -194,7 +194,7 @@ if "__main__" == __name__:
         return ColorCode.colorize(text, ColorCode.YELLOW)
 
     # print a welcome message
-    print("\n\Welcome to the Midnight XYZW mod for Black Desert Online!")
+    print("\nWelcome to the Midnight XYZW mod for Black Desert Online!\n")
 
     class CustomFormatter(argparse.HelpFormatter):
         def _split_lines(self, text, width):
@@ -234,14 +234,9 @@ if "__main__" == __name__:
         # Use current working folder as the target folder, if not specified. This is the case when user double click the script to run.
         args.target_folder = os.getcwd()
     if not args.gender:
-        args.gender = prompt(
-            f"""\nWhich gender's armor/outfit you would like to remove: {highlight("F")}(emale), {highlight("M")}(ale) or {highlight("B")}(oth)? """,
-            GenderSelection,
-        )
-    if not args.type:
-        args.type = prompt(
-            f"""\nWhich type of armor/outfit you would like to remove: {highlight("P")}(earl), {highlight("R")}(egular) or {highlight("A")}(ll)? """, OutfitType
-        )
+        args.gender = prompt("\nSelect which gender's armor/outfit you would like to remove.", GenderSelection)
+    if not args.armor:
+        args.armor = prompt("\nSelect which type of armor/outfit you would like to remove.", OutfitType)
 
     # ask user to verify and confirm the settings and give user a chance to bail out
     print(
@@ -249,9 +244,9 @@ if "__main__" == __name__:
             f"""
         You are going to patch game with the following settings:
 
-                target folder : {highlight(args.target_folder)} (make sure this is pointing to your game's PAZ folder)
-            outfit/armor type : {highlight(args.type.value)}
-                       gender : {highlight(args.gender.value)}
+                     target folder : {highlight(args.target_folder)} (make sure this is pointing to your game's PAZ folder)
+            armor/outfit to remove : {highlight(args.armor.value)}
+                gender(s) to patch : {highlight(args.gender.value)}
         
         If you are sure about the settings, press {highlight("ENTER")} to continue, or {highlight("Ctrl-C")} to stop."""
         )
@@ -259,8 +254,8 @@ if "__main__" == __name__:
     input()
     target_folder = pathlib.Path(args.target_folder)
     check_paz_folder(target_folder)
-    apply_patch(target_folder, args.gender, args.type)
+    apply_patch(target_folder, args.gender, args.armor)
     copy_mod_tools(target_folder)
     print(
-        f"""\nAll done! Please run the {highlight("PartCutGen.exe")} and {highlight("Meta Injector.exe")} in the {highlight("files_to_patch")} folder to apply the patch to the game."""
+        f"""\n{ColorCode.colorize("All done!", ColorCode.GREEN)}\nPlease run the {highlight("PartCutGen.exe")} and {highlight("Meta Injector.exe")} in the game's PAZ folder to apply the mod."""
     )

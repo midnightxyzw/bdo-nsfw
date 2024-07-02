@@ -59,7 +59,9 @@ Just submit your PR if you like. Or feel free to fork and modify it however you 
     - switch #2: Free VS. Pearl Items.
     - So total 4 sub categories you can choose from.
 - Know Issues:
-  - Pearl outfits seperation works mostly fine, with a few exceptions. I found that the following pearl outfits are somehow categoriezed as free items: Bern, Blanchard, Binari. There might be more.
+  - Pearl outfits separation works mostly fine, with a few exceptions. I have found that the following pearl outfits are somehow categorized as free items: Bern, Blanchard, Binari. There might be more.
+  - Ranger:
+    - 头和脖子有色差
 
 # v0.2.0 Release Notes (06/26/2024)
 

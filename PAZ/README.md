@@ -37,7 +37,12 @@ This way involves less steps and is easier to follow. But it could be slow since
 
 ## The developer way
 
-This way is much faster since it only copy minimal amount of files. It assumes you are familiar with the workflow or running scripts from command line with various arguments.
+This way is faster since it only copy minimal amount of files. It assumes you are familiar with the workflow or running scripts from command line with various arguments.
+
+1. Install Python
+2. Enable Developer Mode, if you are on Windows.
+3. Open command line window and go to this folder.
+4. Run `midnight_xyzw.cmd --help` for details on how to use this tool.
 
 2. Enable "Developer Mode"
 

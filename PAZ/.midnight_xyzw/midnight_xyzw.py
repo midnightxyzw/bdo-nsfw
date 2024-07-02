@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, os, argparse, textwrap, enum, pathlib, shutil
+import sys, os, argparse, enum, pathlib, shutil, textwrap
 
 
 class GenderSelection(enum.Enum):
@@ -9,8 +9,8 @@ class GenderSelection(enum.Enum):
     B = "Both"
 
     @staticmethod
-    def choices():
-        return "\n".join([f"{e.name}: {e.value}" for e in OutfitType])
+    def choices(indent: str = ""):
+        return indent + f"\n{indent}".join([f"{e.name}: {e.value}" for e in OutfitType])
 
 
 class OutfitType(enum.Enum):
@@ -19,8 +19,8 @@ class OutfitType(enum.Enum):
     A = "All armors and outfits"
 
     @staticmethod
-    def choices():
-        return "\n".join([f"{e.name}: {e.value}" for e in OutfitType])
+    def choices(indent: str = ""):
+        return indent + f"\n{indent}".join([f"{e.name}: {e.value}" for e in OutfitType])
 
 
 class ColorCode:
@@ -195,31 +195,39 @@ if "__main__" == __name__:
 
     # print a welcome message
     print("\n\Welcome to the Midnight XYZW mod for Black Desert Online!")
-    parser = argparse.ArgumentParser()
+
+    class CustomFormatter(argparse.HelpFormatter):
+        def _split_lines(self, text, width):
+            if "choices are:" in text:
+                return [x.strip(" ") for x in text.splitlines()]
+            else:
+                return argparse.HelpFormatter._split_lines(self, text, width)
+
+    parser = argparse.ArgumentParser(formatter_class=CustomFormatter, description="Deploy and customize Midnight XYZW mod for BDO.")
     parser.add_argument(
         "target_folder",
         nargs="?",
         help="Specify the PAZ folder of the BDO game that you want to patch. If not specified, the program will use the current working folder.",
     )
-
-    # parser.add_argument("-c", "--clean", dest="clean", action="store_true", help="Remove the mod from the specified folder. If this option is specified. All other options will be ignored.")
+    gender_choices = GenderSelection.choices("\t")
     parser.add_argument(
         "-g",
         "--gender",
         dest="gender",
         type=enum_type(GenderSelection),
         help=f"""Specify gender selection of the Patch. Possible choices are:
-                        {GenderSelection.choices()}
-                        If not specified, the program will ask for it interactively.""",
+                {gender_choices}
+                If not specified, the program will ask for it interactively.""",
     )
+    outfit_choices = OutfitType.choices("\t")
     parser.add_argument(
-        "-t",
-        "--type",
-        dest="type",
+        "-a",
+        "--armor",
+        dest="armor",
         type=enum_type(OutfitType),
-        help=f"""Specify the type of outfits to apply the mod to. Possible choices are:
-                        {OutfitType.choices()}
-                        If not specified, the program will ask for it interactively.""",
+        help=f"""Specify the type of armor and outfit to apply the mod to. Possible choices are:
+                {outfit_choices}
+                If not specified, the program will ask for it interactively.""",
     )
     args = parser.parse_args()
     if not args.target_folder:
@@ -227,12 +235,12 @@ if "__main__" == __name__:
         args.target_folder = os.getcwd()
     if not args.gender:
         args.gender = prompt(
-            f"""\nWhich gender's armor/output you would like to remove: {highlight("F")}(emale), {highlight("M")}(ale) or {highlight("B")}(oth)? """,
+            f"""\nWhich gender's armor/outfit you would like to remove: {highlight("F")}(emale), {highlight("M")}(ale) or {highlight("B")}(oth)? """,
             GenderSelection,
         )
     if not args.type:
         args.type = prompt(
-            f"""\nWhich type of outfit/armor you would like to remove: {highlight("P")}(earl), {highlight("R")}(egular) or {highlight("A")}(ll)? """, OutfitType
+            f"""\nWhich type of armor/outfit you would like to remove: {highlight("P")}(earl), {highlight("R")}(egular) or {highlight("A")}(ll)? """, OutfitType
         )
 
     # ask user to verify and confirm the settings and give user a chance to bail out

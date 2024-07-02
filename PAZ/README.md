@@ -20,13 +20,26 @@ There's currently no options like the resorpless mod used to have. Adding those 
 
 # How to use it
 
-1. Make sure your game is not patched in any way. Applying this mod on an already patched game is not tested.
-2. Copy everything in this folder and sub folders to your game's PAZ folder.
+## The KISS way
+
+This way involves less steps and is easier to follow. But it could be slow since it involves copying & deleting large amount of files.
+
+1. First, you need to have Python environment installed and ready to use. The easier way to install it on modern Windows is via `winget`:
+   - Press "Widnows + R" key to open the "Run" dialog
+   - Run: `winget install python` to install python environment. 
+2. Copy everything in this folder to your game's PAZ folder.
 3. From the game's PAZ folder, do the following to patch the game:
-   1. Run [midnight_xyzw.cmd](midnight_xyzw.cmd) and follow screen instructions to customize the mod.
-   2. Run [PartCutGen.exe](PartCutGen.exe) and follow screen instructions to refresh the part cut exclusion list.
-   3. Run [Meta Injector.exe](<Meta Injector.exe>) and follow screen instructions to patch your game.
+   1. Make sure your game is not patched in any way. Applying this mod on an already patched game is not tested.
+   2. Run [midnight_xyzw.cmd](midnight_xyzw.cmd) and follow screen instructions to customize the mod.
+   3. Run [PartCutGen.exe](PartCutGen.exe) and follow screen instructions to refresh the part cut exclusion list.
+   4. Run [Meta Injector.exe](<Meta Injector.exe>) and follow screen instructions to patch your game.
 4. Have Fun!
+
+## The developer way
+
+This way is much faster since it only copy minimal amount of files. It assumes you are familiar with the workflow or running scripts from command line with various arguments.
+
+2. Enable "Developer Mode"
 
 # Want to contribute?
 

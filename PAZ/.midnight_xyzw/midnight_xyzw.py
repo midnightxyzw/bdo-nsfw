@@ -171,30 +171,28 @@ def apply_patch(paz_folder: pathlib.Path, gender: GenderSelection, outfit_type: 
         deploy_mod(source, target)
 
 
-def enum_type(enum_class):
-    def parse_enum(value):
-        try:
-            return enum_class[value.upper()]
-        except KeyError:
-            raise argparse.ArgumentTypeError(f"Invalid value '{value}'. Allowed values are: {[e.name for e in enum_class]}")
-
-    return parse_enum
-
-
-def prompt(question, enum_class):
-    while True:
-        try:
-            value = input(question)
-            return enum_type(enum_class)(value)
-        except argparse.ArgumentTypeError as e:
-            print(e)
-
-
-def highlight(text):
-    return ColorCode.colorize(text, ColorCode.YELLOW)
-
-
 if "__main__" == __name__:
+
+    def enum_type(enum_class):
+        def parse_enum(value):
+            try:
+                return enum_class[value.upper()]
+            except KeyError:
+                raise argparse.ArgumentTypeError(f"Invalid value '{value}'. Allowed values are: {[e.name for e in enum_class]}")
+
+        return parse_enum
+
+    def prompt(question, enum_class):
+        while True:
+            try:
+                value = input(question)
+                return enum_type(enum_class)(value)
+            except argparse.ArgumentTypeError as e:
+                print(e)
+
+    def highlight(text):
+        return ColorCode.colorize(text, ColorCode.YELLOW)
+
     # print a welcome message
     print("\n\Welcome to the Midnight XYZW mod for Black Desert Online!")
     parser = argparse.ArgumentParser()
@@ -203,6 +201,7 @@ if "__main__" == __name__:
         nargs="?",
         help="Specify the PAZ folder of the BDO game that you want to patch. If not specified, the program will use the current working folder.",
     )
+
     # parser.add_argument("-c", "--clean", dest="clean", action="store_true", help="Remove the mod from the specified folder. If this option is specified. All other options will be ignored.")
     parser.add_argument(
         "-g",
@@ -223,7 +222,6 @@ if "__main__" == __name__:
                         If not specified, the program will ask for it interactively.""",
     )
     args = parser.parse_args()
-
     if not args.target_folder:
         # Use current working folder as the target folder, if not specified. This is the case when user double click the script to run.
         args.target_folder = os.getcwd()

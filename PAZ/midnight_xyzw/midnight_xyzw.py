@@ -125,6 +125,22 @@ def copy_mod_tools(paz_folder: pathlib.Path):
     copy_file_no_override(source_folder / "PartCutGen.exe", paz_folder)
 
 
+def collect_mods(mod_name, condition):
+    mod_source_folder = pathlib.Path(__file__).parent
+    mods = []
+    dir = mod_source_folder / mod_name
+    if not dir.is_dir():
+        print(f"Warning: Mod '{mod_name}' not found. Skipping...")
+        return mods
+    for entry in dir.iterdir():
+        if not entry.is_dir():
+            continue
+        if not condition(entry.name):
+            continue
+        mods.append(f"{mod_name}/{entry.name}")
+    return mods
+
+
 def apply_patch(paz_folder: pathlib.Path, gender: GenderSelection, outfit_type: OutfitType):
     check_folder(paz_folder)
 
@@ -136,19 +152,9 @@ def apply_patch(paz_folder: pathlib.Path, gender: GenderSelection, outfit_type: 
         "_00_suzu_nude",
         "_00_npc_and_monster",
     ]
-    for m in ["_00_remove_all_armors", "_00_remove_underwear"]:
-        dir = mod_source_folder / m
-        if not dir.is_dir():
-            print(f"Warning: Mod '{m}' not found. Skipping...")
-            continue
-        for entry in dir.iterdir():
-            if not entry.is_dir():
-                continue
-            if not check_gender(entry.name, gender):
-                continue
-            if not check_outfit_type(entry.name, outfit_type):
-                continue
-            mods.append(f"{m}/{entry.name}")
+    mods += collect_mods("_00_remove_all_armors", lambda name: check_gender(name, gender) and check_outfit_type(name, outfit_type))
+    mods += collect_mods("_00_remove_underwear", lambda name: check_gender(name, gender))
+    # print(mods)
 
     # create the mod destination folder
     mod_target_folder = paz_folder / "files_to_patch/_midnight_xyzw"

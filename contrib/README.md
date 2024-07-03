@@ -26,3 +26,7 @@ This was once the most famous and popluar BDO nude mod available. But it hasn't 
 https://www.undertow.club/threads/black-desert-online-nude-body-costume-mods-for-meta-injector-by-suzu.10110/
 
 Nude mesh and textures by famous modder Suzu.
+
+# Improved high poly mesh of Suzu body by TheGreateSage
+
+https://discord.com/channels/524568440254627850/1170031675409957045

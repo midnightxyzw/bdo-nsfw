@@ -1,0 +1,38 @@
+3D Object Converter for Windows 10.60
+
+Release date:		December 12, 2023
+Version:		32 bit, OpenGL
+Supported file formats:	875
+Author:			Zoltan Karpati
+
+E-Mail:			3dconverter@gmail.com
+
+WEB:			http://3doc.i3dconverter.com
+
+SAC FTP:		ftp://ftp.elf.stuba.sk/pub/pc/graph/3dc32xyz.zip	(xyz=version)
+
+New file format modules:
+	Dragon Star Varnir			*.GXRESCOLLISIONMESH	Load
+	Dragon Star Varnir			*.GXRESMODEL		Load
+	Dragon Star Varnir			*.GXRESMODELEXT		Load
+	Mortar Engine (Fruit Ninja)		*.BINMODEL		Load
+	Mortar Engine (Fruit Ninja)		*.MMD			Load
+	Nihilistic Object Description v10
+	(StarCraft: Ghost)			*.NOD/3DMATERIALS.NSA	Load
+	Starshine Legacy			*.PME			Load
+	Little Britain: The Video Game		*.GEO			Load
+
+Improved module:
+	cal3D Binary Mesh (IMVU)		*.XMF			Load
+	E2 game engine
+	(Trainz Railroad Simulator 2019)	*.TRAINZMESH		Load
+	Star Stable Online			*.PME			Load
+
+	Star Stable Online			*.PTE			Load
+
+New feature:
+	Configuration/Import						Save_The_E2_Game_Engine_Attachment_And_Bone_Info_After_Load (default=false)
+
+Other change:
+	Nihilistic Object Description
+	(Vampire: The Masquerade - Redemption)	*.NOD	Load		Renamed to: Nihilistic Object Description v7 (Vampire: The Masquerade - Redemption) *.NOD	

@@ -22,7 +22,6 @@ class OutfitType(enum.Enum):
     def choices(indent: str = ""):
         return indent + f"\n{indent}".join([f"{e.name}: {e.value}" for e in OutfitType])
 
-
 class ColorCode:
     # Reset code
     RESET = "\033[0m"
@@ -141,7 +140,7 @@ def collect_mods(mod_name, condition):
     return mods
 
 
-def apply_patch(paz_folder: pathlib.Path, gender: GenderSelection, outfit_type: OutfitType):
+def apply_patch(paz_folder: pathlib.Path, gender: GenderSelection, outfit_type: OutfitType, npc: bool):
     check_folder(paz_folder)
 
     # collect all available mods
@@ -150,10 +149,10 @@ def apply_patch(paz_folder: pathlib.Path, gender: GenderSelection, outfit_type: 
     mods = [
         # List mods that we always install
         "_00_suzu_nude",
-        "_00_npc_and_monster",
     ]
     mods += collect_mods("_00_remove_all_armors", lambda name: check_gender(name, gender) and check_outfit_type(name, outfit_type))
     mods += collect_mods("_00_remove_underwear", lambda name: check_gender(name, gender))
+    if npc: mods += ["_00_npc_and_monster"]
     # print(mods)
 
     # create the mod destination folder
@@ -196,6 +195,16 @@ if "__main__" == __name__:
             except argparse.ArgumentTypeError as e:
                 print(e)
 
+    def prompt_bool(question):
+        while True:
+            value = input(question + " (y/n) : ")
+            if value.lower() in ["y", "yes"]:
+                return True
+            elif value.lower() in ["n", "no"]:
+                return False
+            else:
+                print("Invalid input. Please enter 'y' or 'n'.")
+
     def highlight(text):
         return ColorCode.colorize(text, ColorCode.YELLOW)
 
@@ -235,6 +244,20 @@ if "__main__" == __name__:
                 {outfit_choices}
                 If not specified, the program will ask for it interactively.""",
     )
+    parser.add_argument(
+        "-n",
+        "--npc",
+        dest="npc",
+        action="store_true",
+        help="Apply the mod to NPC and monsters as well. This will remove armor and outfits for some NPCs and monsters.",
+    )
+    parser.add_argument(
+        "-s",
+        "--skip-npc",
+        dest="skip_npc",
+        action="store_true",
+        help="Skip mod to NPC and monsters.",
+    )
     args = parser.parse_args()
     if not args.target_folder:
         # Use current working folder as the target folder, if not specified. This is the case when user double click the script to run.
@@ -243,6 +266,12 @@ if "__main__" == __name__:
         args.gender = prompt("\nSelect which gender's armor/outfit you would like to remove.", GenderSelection)
     if not args.armor:
         args.armor = prompt("\nSelect which type of armor/outfit you would like to remove.", OutfitType)
+    if args.npc:
+        npc = True
+    elif args.skip_npc:
+        npc = False
+    else:
+        npc = prompt_bool("\nApply the mod to NPC and monsters as well?")
 
     # ask user to verify and confirm the settings and give user a chance to bail out
     print(
@@ -253,6 +282,7 @@ if "__main__" == __name__:
                      target folder : {highlight(args.target_folder)} (make sure this is pointing to your game's PAZ folder)
             armor/outfit to remove : {highlight(args.armor.value)}
                 gender(s) to patch : {highlight(args.gender.value)}
+          apply to NPC and monster : {highlight(npc)}
         
         If you are sure about the settings, press {highlight("ENTER")} to continue, or {highlight("Ctrl-C")} to stop."""
         )
@@ -260,7 +290,7 @@ if "__main__" == __name__:
     input()
     target_folder = pathlib.Path(args.target_folder)
     check_paz_folder(target_folder)
-    apply_patch(target_folder, args.gender, args.armor)
+    apply_patch(target_folder, args.gender, args.armor, npc)
     copy_mod_tools(target_folder)
     print(
         f"""\n{ColorCode.colorize("All done!", ColorCode.GREEN)}\nPlease run the {highlight("PartCutGen.exe")} and {highlight("Meta Injector.exe")} in the game's PAZ folder to apply the mod."""

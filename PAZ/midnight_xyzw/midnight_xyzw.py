@@ -17,6 +17,7 @@ class OutfitType(enum.Enum):
     P = "Pearl Shop Outfits"
     F = "Free (non cash shop) outfits and armors"
     A = "All armors and outfits"
+    U = "Underwear Only"
 
     @staticmethod
     def choices(indent: str = ""):
@@ -93,7 +94,10 @@ def check_outfit_type(name: str, outfit_type: OutfitType):
         return "_pearl" in name
     elif OutfitType.F == outfit_type:
         return "_free" in name
+    elif OutfitType.U == outfit_type:
+        return False
     else:
+        # this is for outfit type "All"
         return True
 
 

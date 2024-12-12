@@ -153,6 +153,7 @@ def apply_patch(paz_folder: pathlib.Path, gender: GenderSelection, outfit_type: 
     mods = [
         # List mods that we always install
         "_00_suzu_nude",
+        "_01_xyzw_collections",
     ]
     mods += collect_mods("_00_remove_all_armors", lambda name: check_gender(name, gender) and check_outfit_type(name, outfit_type))
     mods += collect_mods("_00_remove_underwear", lambda name: check_gender(name, gender))
@@ -166,11 +167,10 @@ def apply_patch(paz_folder: pathlib.Path, gender: GenderSelection, outfit_type: 
     # Remove any sub folders and symbolic links started with name "_00_"
     print("\nCleaning up existing mods...")
     for entry in mod_target_folder.iterdir():
-        if entry.name.startswith("_00_"):
-            if entry.is_symlink():
-                os.unlink(entry)
-            elif entry.is_dir():
-                shutil.rmtree(entry)
+        if entry.is_symlink():
+            os.unlink(entry)
+        elif entry.is_dir():
+            shutil.rmtree(entry)
 
     # Create directory symbolic link for each mod
     print("\nDeploying new mods...")

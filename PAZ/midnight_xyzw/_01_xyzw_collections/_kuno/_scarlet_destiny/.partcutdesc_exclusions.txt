@@ -1,0 +1,8 @@
+###/////////Kunoichi-Scarlet Destiny////////////###
+pnw_kw_ub_0235.pac
+pnw_kw_ub_0235_dm.pac
+pnw_kw_lb_0235_dm.pac
+pnw_kw_lb_0235.pac
+pnw_kw_cloak_0235_01.pac
+pnw_kw_cloak_0235.pac
+###/////////////////////////////////////////////###

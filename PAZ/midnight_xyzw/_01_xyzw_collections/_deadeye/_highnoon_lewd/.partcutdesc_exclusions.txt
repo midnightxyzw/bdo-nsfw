@@ -1,0 +1,9 @@
+#Highnoon
+pwge_00_ub_0001
+pwge_00_ub_0001_dm
+pwge_00_lb_0001
+pwge_00_lb_0001_dm
+pwge_00_sho_0001
+pwge_00_sho_0001_01
+pwge_00_cloak_0001_w
+pwge_00_cloak_0001_dm_w

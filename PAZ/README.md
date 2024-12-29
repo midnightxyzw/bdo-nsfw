@@ -5,16 +5,16 @@ BDO NSFW mod generated & collected by Midnight Xyzw.
 # What's included
 
 ## 1. [No Underwear](files_to_patch/_player/_00_remove_underwear)
-This mod hides underwear for all classes (except Shai), up to Scholar. It does not contain any nude texture/mesh in it, to make it easier to use it with your own version of nude mod.
+This mod hides underwear for all classes (except Shai), up to Deadeye. It does not contain any nude texture/mesh in it, to make it easier to use it with your own version of nude mod.
 
 ## 2. [Suzu's Nude Mod](files_to_patch/_player/_00_suzu_nude)
-This is nude model and skin for all female classes (except Shai), up to Scholar, originally created by fantastic [Suzu](https://www.undertow.club/downloads/authors/suzu-%E9%88%B4.26775/). This is the fixed/improved version from Discord user [TheGreateSage](https://discord.com/channels/524568440254627850/1313857998644314122)
+This is nude model and skin for all female classes (except Shai), up to Deadeye, originally created by fantastic [Suzu](https://www.undertow.club/downloads/authors/suzu-%E9%88%B4.26775/). This is the fixed/improved version from Discord user [TheGreateSage](https://discord.com/channels/524568440254627850/1313857998644314122)
 
 This folder, with `No Underwear` together, provides the basis of the entire MOD.
 
 ## 3. [All Armor Removed](files_to_patch/_player/_00_remove_all_armors)
 
-This mod hides all armors for all classes (except Shai), up to Scholar. It has 2 options to allow you to customize which subset of outfits/armors to remove/hide from the game:
+This mod hides all armors for all classes (except Shai), up to Deadeye. It has 2 options to allow you to customize which subset of outfits/armors to remove/hide from the game:
 
   - option 1: Female only/Male only/Both genders
   - option 2: Free items only/Pearl items only/Underwear Only/Everything.
@@ -65,6 +65,16 @@ This way contains less steps and could be easier to follow for non programmers. 
 # Want to contribute?
 
 Just submit your PR if you like. Or feel free to fork and modify it however you like.
+
+# 0.3.0 Release Nodes (12/28/2024)
+
+Verified against 12/28/2024 official patch on NA server. Compatible with the new Deadeye class.
+
+- What's New:
+  - Generate nude and armor removal mod to the new Deadeye class.
+  - Added some character/outfit specific mods in _01_xyzw_collection
+- Know Issue:
+  - dk grandfather crons helper has injector errors. might not work. 
 
 # 0.2.1.preview Release Note (07/04/2024)
 

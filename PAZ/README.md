@@ -75,6 +75,7 @@ Verified against 12/28/2024 official patch on NA server. Compatible with the new
   - Added some character/outfit specific mods in _01_xyzw_collection
 - Know Issue:
   - dk grandfather crons helper has injector errors. might not work. 
+  - Maegu's Crimson Flame has missing body parts
 
 # 0.2.1.preview Release Note (07/04/2024)
 

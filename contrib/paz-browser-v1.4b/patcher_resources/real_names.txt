@@ -86,7 +86,9 @@ PHW_02_*_0006->Bern
 *_00_*_0045->Sylvia
 *_00_*_0053->Gotha Rensa
 *_00_*_0066->Ladellin
+*_00_*_0080->Marod Star
 *_00_*_0090->Stella
+*_00_*_0274->Selaine
 pew_02_*_0006->Bern
 
 

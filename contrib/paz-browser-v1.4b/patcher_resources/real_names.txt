@@ -80,9 +80,12 @@ PHW_02_*_0005->Ecket
 PHW_02_*_0006->Bern
 
 # Ranger
+*_00_*_0007->Shudad
 *_00_*_0010->Ignis
+*_00_*_0031->Lahr Arcien (W)
 *_00_*_0045->Sylvia
 *_00_*_0053->Gotha Rensa
+*_00_*_0066->Ladellin
 *_00_*_0090->Stella
 pew_02_*_0006->Bern
 

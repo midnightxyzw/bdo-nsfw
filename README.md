@@ -12,11 +12,7 @@ The [contrib](contrib) folder contains tools and resources I collected online. A
 
 The [PAZ](PAZ) folder contains verified ready to use mod files.
 
-The [src](src) folder contains the source files and scripts to generate the mod.
+The [src](src) folder contains the source files and scripts to generate the armor/underwear removal mod.
 
-# TODO
+The [src/xyzw](src/xyzw) folder contains individual outfit mod.
 
-- Mod for the following gears:
-  - Tuvala Gears
-  - Boss Gears
-  - Slumbering Origin Gears

@@ -1,0 +1,2 @@
+PACtool.exe -c PAC_FILE_NAME.pac bones/CLASSPREFIX_01.pab
+PAUSE

@@ -1,4 +1,6 @@
 b               "build $args"
 g               "git $args"
-j.root          "cd ${OLIVE_LINK_ROOT}/$args"
-j.src           "cd ${OLIVE_LINK_ROOT}/src$args"
+3dc             ". ${BDO_MOD_ROOT}\contrib\3d_converter-2024-06-25\3dconverter.exe $args"
+pt              ". ${BDO_MOD_ROOT}\contrib\pactool-v3\PACtool.exe $args"
+j.root          "cd ${BDO_MOD_ROOT}\$args"
+j.src           "cd ${BDO_MOD_ROOT}\src$args"

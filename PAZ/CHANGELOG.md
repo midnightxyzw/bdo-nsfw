@@ -1,3 +1,10 @@
+02/07/2025
+==
+- Fixed Selaine part cut
+- Updated pactool to 1.4.4
+- Updated 3d converter to 11.102
+- Added source files to mod GPCron's helper (wip)
+
 12/28/2024
 ==
 - Removed the problematic DK GrandPa Cron's Helper mod

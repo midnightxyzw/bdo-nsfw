@@ -66,13 +66,15 @@ This way contains less steps and could be easier to follow for non programmers. 
 
 Just submit your PR if you like. Or feel free to fork and modify it however you like.
 
-# 0.3.1 Release Notes (TBD: do not merge)
+# 0.3.1 Release Notes (11/25/2025)
+
+Verified against 11/20/2025 official patch on NA server.
 
 - New mod for Guardian's Kharoxia outfit
-- Removed patch to all "underup" files. BDO has them removed from the game already.
+- New mod for Kaine outfit for Corsair, Dark Knight, Drakania, Guardian, Kunoichi, Lahn, MAewha, Mystic, Nova, Sorceress, Valkyrie, and Witch
+- Fixed patch error of all "underup" files. BDO has them removed from the game already.
 - Updated pactool to v1.4.4
 - Updated 3d converter to 11.102
-- 
 
 # 0.3.0 Release Nodes (12/28/2024)
 

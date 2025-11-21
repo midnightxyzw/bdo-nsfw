@@ -1,2 +1,3 @@
 termcolor
 black==24.4.2
+rarfile

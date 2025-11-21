@@ -68,8 +68,11 @@ Just submit your PR if you like. Or feel free to fork and modify it however you 
 
 # 0.3.1 Release Notes (TBD: do not merge)
 
-- Added new mod for Guardian's Kharoxia costume
+- New mod for Guardian's Kharoxia outfit
 - Removed patch to all "underup" files. BDO has them removed from the game already.
+- Updated pactool to v1.4.4
+- Updated 3d converter to 11.102
+- 
 
 # 0.3.0 Release Nodes (12/28/2024)
 

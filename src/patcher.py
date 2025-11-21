@@ -13,6 +13,10 @@ class FileCategorizer(abc.ABC):
         """
         pass
 
+def purge_output_dir(outDir: pathlib.Path):
+    if outDir.exists():
+        shutil.rmtree(outDir)
+        outDir.mkdir(parents=True, exist_ok=True)
 
 def generate_patch(outRootDir: pathlib.Path, sourcePath: str, targetLocationWithinOutDir: str | pathlib.Path, percent: float | None = None):
     outFile = outRootDir / targetLocationWithinOutDir

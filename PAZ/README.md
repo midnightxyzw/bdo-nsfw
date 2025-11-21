@@ -66,6 +66,11 @@ This way contains less steps and could be easier to follow for non programmers. 
 
 Just submit your PR if you like. Or feel free to fork and modify it however you like.
 
+# 0.3.1 Release Notes (TBD: do not merge)
+
+- Added new mod for Guardian's Kharoxia costume
+- Removed patch to all "underup" files. BDO has them removed from the game already.
+
 # 0.3.0 Release Nodes (12/28/2024)
 
 Verified against 12/28/2024 official patch on NA server. Compatible with the new Deadeye class.

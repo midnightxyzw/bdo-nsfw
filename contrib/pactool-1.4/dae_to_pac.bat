@@ -1,0 +1,2 @@
+PACtool.exe -r DAE_FILE_NAME.dae PAC_FILE_NAME.pac bones/CLASSPREFIX_01.pab
+PAUSE

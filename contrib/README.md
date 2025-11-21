@@ -2,13 +2,16 @@
 
 This folder contains collection of commonly seen tools and assets for BOD modding.
 
-All credid and courtesy goes to the original authors.
+All credit and courtesy goes to the original authors.
+
+# 3D converter
+http://3doc.i3dconverter.com/
 
 # BDO Mod Tools from Undertow
 
 https://www.undertow.club/threads/bdo-toolkit-a-net-modding-library-for-black-desert-online.12042/
 
-This repository has a cooy of the following tools:
+This repository has a copy of the following tools:
 
 - BDO Toolkit 1.3.0
 - Meta Injector 1.4.1

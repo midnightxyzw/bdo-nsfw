@@ -1,0 +1,38 @@
+##/////////<Corsair\replace Desperada outfit\readme.txt>//////////##
+pfw_00_ub_0002*
+##/////////////////////////##
+##/////////<Dark Knight\replace Sin Terrna outfit\readme.txt>//////////##
+pdw_00_ub_0002*
+pdw_00_ub_0002_mul*
+pdw_00_ub_0002_mul_na*
+##/////////////////////////##
+##/////////<Drakania\replace Lethena outfit\readme.txt>//////////##
+pqw_00_ub_0002*
+##/////////////////////////##
+##/////////<Guardian\replace Ynixtra outfit\readme.txt>//////////##
+pgw_00_ub_0002*
+##/////////////////////////##
+##/////////<Kunoichi\replace Ayo outfit\readme.txt>//////////##
+pnw_00_ub_0071*
+##/////////////////////////##
+##/////////<Lahn\replace Sanguine Petal outfit\readme.txt>//////////##
+psw_00_ub_0002*
+##/////////////////////////##
+##/////////<Maehwa\replace Order of the Apricot outfit\readme.txt>//////////##
+pkww_00_ub_0061*
+##/////////////////////////##
+##/////////<Mystic\replace Banha outfit\readme.txt>//////////##
+pcw_00_ub_0002*
+##/////////////////////////##
+##/////////<Nova\replace Sephia outfit\readme.txt>//////////##
+ppw_00_ub_0002*
+##/////////////////////////##
+##/////////<Sorceress\replace Cartian outfit\readme.txt>//////////##
+phw_00_ub_0043*
+##/////////////////////////##
+##/////////<Valkyrie\replace Enslar outfit\readme.txt>//////////##
+pvw_00_ub_0058*
+##/////////////////////////##
+##/////////<Witch\replace Labreve outfit\readme.txt>//////////##
+pww_00_ub_0064*
+##/////////////////////////##

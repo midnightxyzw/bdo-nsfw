@@ -50,7 +50,7 @@ The Discord BDO NSFW channel contains a wonderful article about the basics of mo
 | 7_PVW | Valkyrie |
 | 8_PWW | Witch |
 | 11_PGW | Guardian |
-| 12_PKW | Maehwa? |
+| 12_PKW | Old Maehwa (Some early Maewha outfits/underwear use this) |
 | 13_PNW | Kunoichi |
 | 14_PLW | Shai |
 | 15_PDW | Dark Knight |

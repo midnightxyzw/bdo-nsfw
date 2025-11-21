@@ -1,0 +1,1 @@
+Hide upper body part of the GPCron's Helper (WIP)

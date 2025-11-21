@@ -35,6 +35,8 @@ class UnderwearTextureCategorizer(patcher.FileCategorizer):
 
 
 def remove_underwear(outDir: pathlib.Path, meta: meta_file.MetaFile):
+    # purge output directory. delete all contents if it exists
+    patcher.purge_output_dir(outDir)
     patcher.hide_player_models("Hide underwear models...", outDir, meta, UnderwearModelCategorizer())
     patcher.patch_player_ao_textures("Patch underwear AO textures...", outDir, meta, UnderwearTextureCategorizer())
     with open(outDir / ".README.md", "w") as f:

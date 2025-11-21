@@ -63,6 +63,8 @@ class ArmorTextureCategorizer(ArmorCategorizer):
 
 
 def remove_all_armors(outDir: pathlib.Path, meta: meta_file.MetaFile):
+    # purge output directory. delete all contents if it exists
+    patcher.purge_output_dir(outDir)
     patcher.hide_player_models("Hide armor models", outDir, meta, ArmorModelCategorizer())
     patcher.patch_player_ao_textures("Patch armor AO textures", outDir, meta, ArmorTextureCategorizer())
     with open(outDir / ".README.md", "w") as f:

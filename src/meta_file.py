@@ -130,12 +130,11 @@ class MetaFile:
     def search_for_the_known_block(self, f):
         # The actual start offset of files block table is unknown. We need to search for it.
         # The way we do it is by searching for an known hash value of 631490897 that we know must exists.
-        # It might be it the middle of the file block entries.
         while True:
             if int.from_bytes(f.read(4), byteorder="little") == 631490897:
                 break
 
-        # Seek back 4 bytes. Now we are at the beginning of the block.
+        # Seek back 4 bytes. Now we are at the beginning of this "known" block.
         f.seek(-4, 1)
 
         # Return this point to the caller.

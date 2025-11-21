@@ -38,16 +38,6 @@ function catch_batch_env( $batch, $arg )
 }
 
 # ==============================================================================
-# Check Python support
-# ==============================================================================
-
-$py = [System.Version]$(python.exe -V).Substring(7)
-if ([System.Version]"3.6.0" -gt $py) {
-    warn "Python is not installed or current version ($py) is too low. Please upgrade to 3.8.0+ for best script compatibility."
-}
-write-host "Python version: $py found."
-
-# ==============================================================================
 # Define global functions
 # ==============================================================================
 
@@ -82,6 +72,27 @@ function global:prompt {
 write-host "Detecting repository root directory..."
 $global:BDO_MOD_ROOT=split-path -parent $PSScriptRoot | split-path -parent
 $env:BDO_MOD_ROOT=$BDO_MOD_ROOT
+
+# ==============================================================================
+# Check Python support
+# ==============================================================================
+
+$py = [System.Version]$(python.exe -V).Substring(7)
+if ([System.Version]"3.6.0" -gt $py) {
+    warn "Python is not installed or current version ($py) is too low. Please upgrade to 3.8.0+ for best script compatibility."
+}
+write-host "Python version: $py found."
+
+# Setup Virtual Python Environment
+$python_venv_path = "$BDO_MOD_ROOT\src\.python_venv"
+if (-not (Test-Path -path "$python_venv_path\Scripts\activate.ps1")) {
+    write-host "Initializing virtual python environment at $python_venv_path ..."
+    python -m venv $python_venv_path
+}
+write-host "Activating virtual python environment at $python_venv_path ..."
+. "$python_venv_path\Scripts\activate.ps1"
+python -m pip install --upgrade pip
+python -m pip install -r "$BDO_MOD_ROOT\src\requirements.txt"
 
 # ==============================================================================
 # setup aliases
